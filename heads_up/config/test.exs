@@ -7,7 +7,7 @@ import Config
 # Run `mix help test` for more information.
 config :heads_up, HeadsUp.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "Beady5Ninth>cu",
   hostname: "localhost",
   database: "heads_up_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,

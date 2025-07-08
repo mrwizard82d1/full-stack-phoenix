@@ -3,7 +3,7 @@ import Config
 # Configure your database
 config :heads_up, HeadsUp.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "Beady5Ninth>cu",
   hostname: "localhost",
   database: "heads_up_dev",
   stacktrace: true,
