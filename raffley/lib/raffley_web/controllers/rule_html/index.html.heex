@@ -4,4 +4,12 @@
   <p class="mt-4">
     {@emojis}
   </p>
+
+  <ol>
+    <%= for rule <- @rules do %>
+      <li>
+        {rule.text}
+      </li>
+    <% end %>
+  </ol>
 </div>
