@@ -8,7 +8,7 @@
   <ol>
     <%= for rule <- @rules do %>
       <li>
-        <a href={"/rules/#{rule.id}"}>
+        <a href={~p"/rules/#{rule.id}"}>
           {rule.text}
         </a>
       </li>
