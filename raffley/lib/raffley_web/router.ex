@@ -31,9 +31,13 @@ defmodule RaffleyWeb.Router do
   scope "/", RaffleyWeb do
     pipe_through :browser
 
+    # "Standard" HTTP routes
     get "/", PageController, :home
     get "/rules", RuleController, :index
     get "/rules/:id", RuleController, :show
+
+    # LiveView route
+    live "/estimator", EstimatorLive
   end
 
   # Other scopes may use custom stacks.
