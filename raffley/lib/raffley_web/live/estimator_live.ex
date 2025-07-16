@@ -24,6 +24,10 @@ defmodule RaffleyWeb.EstimatorLive do
     <div class="estimator">
       <h1>Raffle Estimator</h1>
 
+      <button phx-click="add">
+        +
+      </button>
+
       <section>
         <div>
           {@tickets}
@@ -39,5 +43,12 @@ defmodule RaffleyWeb.EstimatorLive do
       </section>
     </div>
     """
+  end
+
+  def handle_event("add", _payload, socket) do
+    tickets = socket.assigns.tickets + 1
+    socket = assign(socket, :tickets, tickets)
+
+    {:noreply, socket}
   end
 end
