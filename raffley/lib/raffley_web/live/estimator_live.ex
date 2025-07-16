@@ -24,7 +24,7 @@ defmodule RaffleyWeb.EstimatorLive do
     <div class="estimator">
       <h1>Raffle Estimator</h1>
 
-      <button phx-click="add">
+      <button phx-click="add" phx-value-quantity="5">
         +
       </button>
 
@@ -45,9 +45,9 @@ defmodule RaffleyWeb.EstimatorLive do
     """
   end
 
-  def handle_event("add", _payload, socket) do
+  def handle_event("add", payload, socket) do
     # Update the socket by incremementing the number of tickets "sold"
-    socket = update(socket, :tickets, &(&1 + 1))
+    socket = update(socket, :tickets, &(&1 + String.to_integer(payload["quantity"])))
 
     {:noreply, socket}
   end
