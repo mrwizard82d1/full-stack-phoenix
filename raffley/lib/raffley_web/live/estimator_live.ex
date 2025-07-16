@@ -10,6 +10,8 @@ defmodule RaffleyWeb.EstimatorLive do
     # Assigns two pieces of "state" for our "socket"
     socket = assign(socket, tickets: 0, price: 3)
 
+    IO.inspect(socket)
+
     # Must return a two-item tuple
     {:ok, socket}
 
@@ -48,6 +50,8 @@ defmodule RaffleyWeb.EstimatorLive do
   def handle_event("add", %{"quantity" => quantity}, socket) do
     # Update the socket by incremementing the number of tickets "sold"
     socket = update(socket, :tickets, &(&1 + String.to_integer(quantity)))
+
+    IO.inspect(socket)
 
     {:noreply, socket}
   end
