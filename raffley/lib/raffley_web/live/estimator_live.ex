@@ -45,9 +45,9 @@ defmodule RaffleyWeb.EstimatorLive do
     """
   end
 
-  def handle_event("add", payload, socket) do
+  def handle_event("add", %{"quantity" => quantity}, socket) do
     # Update the socket by incremementing the number of tickets "sold"
-    socket = update(socket, :tickets, &(&1 + String.to_integer(payload["quantity"])))
+    socket = update(socket, :tickets, &(&1 + String.to_integer(quantity)))
 
     {:noreply, socket}
   end
