@@ -46,8 +46,8 @@ defmodule RaffleyWeb.EstimatorLive do
   end
 
   def handle_event("add", _payload, socket) do
-    tickets = socket.assigns.tickets + 1
-    socket = assign(socket, :tickets, tickets)
+    # Update the socket by incremementing the number of tickets "sold"
+    socket = update(socket, :tickets, &(&1 + 1))
 
     {:noreply, socket}
   end
