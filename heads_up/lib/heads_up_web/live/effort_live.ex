@@ -9,6 +9,9 @@ defmodule HeadsUpWeb.EffortLive do
     ~H"""
     <div class="effort">
       <h1>Community Love</h1>
+      <button phx-click="add" , phx-value-number="3">
+        + 3
+      </button>
       <section>
         <div>
           {@responders}
@@ -24,5 +27,13 @@ defmodule HeadsUpWeb.EffortLive do
       </section>
     </div>
     """
+  end
+
+  def handle_event("add", %{"number" => number}, socket) do
+    socket = update(socket, :responders, &(&1 + String.to_integer(number)))
+
+    IO.inspect(socket, label: "socket")
+
+    {:noreply, socket}
   end
 end
