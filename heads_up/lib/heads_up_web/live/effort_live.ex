@@ -36,6 +36,8 @@ defmodule HeadsUpWeb.EffortLive do
   def handle_event("add", %{"number" => number}, socket) do
     IO.inspect(self(), label: "handle_event/1 (add)")
 
+    raise("Kapow!")
+
     socket = update(socket, :responders, &(&1 + String.to_integer(number)))
 
     IO.inspect(socket, label: "socket")
