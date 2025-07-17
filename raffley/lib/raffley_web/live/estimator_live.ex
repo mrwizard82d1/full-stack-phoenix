@@ -10,7 +10,7 @@ defmodule RaffleyWeb.EstimatorLive do
     # Assigns two pieces of "state" for our "socket"
     socket = assign(socket, tickets: 0, price: 3)
 
-    IO.inspect(socket)
+    IO.inspect(self(), label: "mount")
 
     # Must return a two-item tuple
     {:ok, socket}
@@ -20,6 +20,8 @@ defmodule RaffleyWeb.EstimatorLive do
   end
 
   def render(assigns) do
+    IO.inspect(self(), label: "render")
+
     # Returns a HEEx template
     # Here, we use the inline sigil
     ~H"""
@@ -48,6 +50,8 @@ defmodule RaffleyWeb.EstimatorLive do
   end
 
   def handle_event("add", %{"quantity" => quantity}, socket) do
+    IO.inspect(self(), label: "handle_event/3 (add)")
+
     # Update the socket by incremementing the number of tickets "sold"
     socket = update(socket, :tickets, &(&1 + String.to_integer(quantity)))
 
