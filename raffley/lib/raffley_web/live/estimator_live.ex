@@ -45,6 +45,11 @@ defmodule RaffleyWeb.EstimatorLive do
           ${@tickets * @price}
         </div>
       </section>
+
+      <form phx-submit="set-price">
+        <label>Ticket Price:</label>
+        <input type="number" name="price" value={@price} />
+      </form>
     </div>
     """
   end
@@ -54,6 +59,17 @@ defmodule RaffleyWeb.EstimatorLive do
 
     # Update the socket by incremementing the number of tickets "sold"
     socket = update(socket, :tickets, &(&1 + String.to_integer(quantity)))
+
+    IO.inspect(socket)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("set-price", %{"price" => price}, socket) do
+    IO.inspect(self(), label: "handle_event/3 (set-price)")
+
+    # Assign a new value to the socket by converting the String price to an integer
+    socket = assign(socket, :price, String.to_integer(price))
 
     IO.inspect(socket)
 
