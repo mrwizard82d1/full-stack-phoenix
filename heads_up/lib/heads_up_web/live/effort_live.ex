@@ -2,14 +2,15 @@ defmodule HeadsUpWeb.EffortLive do
   use HeadsUpWeb, :live_view
 
   def mount(_params, _session, socket) do
+    # Automagically add 3 responders every two seconds
+    Process.send_after(self(), :tick, 2000)
+
     IO.inspect(self(), label: "mount/3")
 
     {:ok, assign(socket, responders: 0, minutes_per_responder: 10)}
   end
 
   def render(assigns) do
-    IO.inspect(self(), label: "render/1")
-
     ~H"""
     <div class="effort">
       <h1>Community Love</h1>
@@ -39,22 +40,20 @@ defmodule HeadsUpWeb.EffortLive do
   end
 
   def handle_event("add", %{"number" => number}, socket) do
-    IO.inspect(self(), label: "handle_event/1 (add)")
-
     socket = update(socket, :responders, &(&1 + String.to_integer(number)))
-
-    IO.inspect(socket, label: "socket")
 
     {:noreply, socket}
   end
 
   def handle_event("recalculate", %{"minutes" => minutes}, socket) do
-    IO.inspect(self(), label: "handle_event/1 (set-minutes)")
-
     socket = assign(socket, :minutes_per_responder, String.to_integer(minutes))
 
-    IO.inspect(socket, label: "socket")
-
     {:noreply, socket}
+  end
+
+  def handle_info(:tick, socket) do
+    Process.send_after(self(), :tick, 2000)
+
+    {:noreply, update(socket, :responders, &(&1 + 3))}
   end
 end
