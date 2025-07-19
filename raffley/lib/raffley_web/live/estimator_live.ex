@@ -7,6 +7,11 @@ defmodule RaffleyWeb.EstimatorLive do
   # `handel_event`
 
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      # Send a message after 2 seconds - but only if we are connected
+      Process.send_after(self(), :tick, 2000)
+    end
+
     # Assigns two pieces of "state" for our "socket"
     socket = assign(socket, tickets: 0, price: 3)
 
@@ -74,5 +79,11 @@ defmodule RaffleyWeb.EstimatorLive do
     IO.inspect(socket)
 
     {:noreply, socket}
+  end
+
+  def handle_info(:tick, socket) do
+    # Schedule the next regular `:tick` message
+    Process.send_after(self(), :tick, 2000)
+    {:noreply, update(socket, :tickets, &(&1 + 10))}
   end
 end
