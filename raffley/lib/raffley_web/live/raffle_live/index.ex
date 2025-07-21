@@ -13,7 +13,16 @@ defmodule RaffleyWeb.RafflesLive.Index do
     <div class="raffle-index">
       <div class="raffles">
         <div :for={raffle <- @raffles} class="card">
+          <img src={raffle.image_path} />
           <h2>{raffle.prize}</h2>
+          <div class="details">
+            <div class="price">
+              ${raffle.ticket_price} / ticket
+            </div>
+            <div class="badge">
+              {raffle.status}
+            </div>
+          </div>
         </div>
       </div>
     </div>
