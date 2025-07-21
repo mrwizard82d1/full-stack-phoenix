@@ -38,6 +38,7 @@ defmodule RaffleyWeb.Router do
 
     # LiveView route
     live "/estimator", EstimatorLive
+    live "/raffles", RafflesLive.Index
   end
 
   # Other scopes may use custom stacks.
