@@ -1,4 +1,4 @@
-defmodule RaffleyWeb.RafflesLive.Index do
+defmodule RaffleyWeb.RaffleLive.Index do
   use RaffleyWeb, :live_view
 
   alias Raffley.Raffles
