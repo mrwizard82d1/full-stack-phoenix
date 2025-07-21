@@ -12,11 +12,9 @@ defmodule RaffleyWeb.RafflesLive.Index do
     ~H"""
     <div class="raffle-index">
       <div class="raffles">
-        <%= for raffle <- @raffles do %>
-          <div class="card">
-            <h2>{raffle.prize}</h2>
-          </div>
-        <% end %>
+        <div :for={raffle <- @raffles} class="card">
+          <h2>{raffle.prize}</h2>
+        </div>
       </div>
     </div>
     """
