@@ -27,7 +27,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
         <div class="price">
           ${@raffle.ticket_price} / ticket
         </div>
-        <.badge />
+        <.badge status={@raffle.status} />
       </div>
     </div>
     """
