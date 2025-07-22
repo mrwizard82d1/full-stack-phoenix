@@ -27,7 +27,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
         <div class="price">
           ${@raffle.ticket_price} / ticket
         </div>
-        <.badge status={@raffle.status} />
+        <.badge status={:mike} />
       </div>
     </div>
     """
@@ -37,7 +37,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
   # function results in a "compile time issue." Notice the "squiggle"
   # at the beginning of the `.badge` "tag". Additionally, this
   # attribute raises a **compiler error**.
-  attr :status, :atom, required: true
+  attr :status, :atom, required: true, values: [:upcoming, :open, :closed]
 
   def badge(assigns) do
     ~H"""
