@@ -19,12 +19,18 @@ defmodule RaffleyWeb.RaffleLive.Index do
             <div class="price">
               ${raffle.ticket_price} / ticket
             </div>
-            <div class="badge">
-              {raffle.status}
-            </div>
+            <.badge raffle={raffle} />
           </div>
         </div>
       </div>
+    </div>
+    """
+  end
+
+  def badge(assigns) do
+    ~H"""
+    <div class="badge">
+      {@raffle.status}
     </div>
     """
   end
