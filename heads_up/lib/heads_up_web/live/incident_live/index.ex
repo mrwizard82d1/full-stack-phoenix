@@ -18,6 +18,8 @@ defmodule HeadsUpWeb.IncidentLive.Index do
     """
   end
 
+  attr :incident, HeadsUp.Incident, required: true
+
   def incident_card(assigns) do
     ~H"""
     <div class="card">
@@ -32,6 +34,8 @@ defmodule HeadsUpWeb.IncidentLive.Index do
     </div>
     """
   end
+
+  attr :status, :atom, values: [:pending, :resolved, :canceled], default: :pending
 
   def badge(assigns) do
     ~H"""
