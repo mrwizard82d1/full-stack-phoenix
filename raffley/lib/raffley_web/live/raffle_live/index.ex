@@ -29,7 +29,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
         <div class="price">
           ${@raffle.ticket_price} / ticket
         </div>
-        <.badge status={@raffle.status} />
+        <.badge status={@raffle.status} class="animate-spin" />
       </div>
     </div>
     """
@@ -40,6 +40,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
   # at the beginning of the `.badge` "tag". Additionally, this
   # attribute raises a **compiler error**.
   attr :status, :atom, values: [:upcoming, :open, :closed], default: :upcoming
+  attr :class, :string, default: nil
 
   def badge(assigns) do
     ~H"""
@@ -47,7 +48,8 @@ defmodule RaffleyWeb.RaffleLive.Index do
       "rounded-md px-2 py-1 text-xs font-medium uppercase inline-block border",
       @status == :open && "text-lime-600 border-lime-600",
       @status == :upcoming && "text-amber-600 border-amber-600",
-      @status == :closed && "text-grey-600 border-grey-600"
+      @status == :closed && "text-gray-600 border-gray-600",
+      @class
     ]}>
       {@status}
     </div>
