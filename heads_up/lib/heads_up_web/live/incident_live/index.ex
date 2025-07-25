@@ -39,7 +39,10 @@ defmodule HeadsUpWeb.IncidentLive.Index do
 
   def badge(assigns) do
     ~H"""
-    <div class="badge">
+    <div class={[
+      "rounded-md px-2 py-1 text-xs font-medium uppercase inline-block border",
+      "text-lime-600 border-lime-600"
+    ]}>
       {@status}
     </div>
     """
