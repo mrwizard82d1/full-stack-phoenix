@@ -2,7 +2,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
   use RaffleyWeb, :live_view
 
   alias Raffley.Raffles
-  alias RaffleyWeb.CustomComponents
+  import RaffleyWeb.CustomComponents
 
   def mount(_params, _session, socket) do
     socket = assign(socket, :raffles, Raffles.list_raffles())
@@ -30,7 +30,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
         <div class="price">
           ${@raffle.ticket_price} / ticket
         </div>
-        <CustomComponents.badge status={@raffle.status} />
+        <.badge status={@raffle.status} />
       </div>
     </div>
     """
