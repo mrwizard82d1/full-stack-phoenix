@@ -22,6 +22,8 @@ defmodule RaffleyWeb.RaffleLive.Index do
     """
   end
 
+  slot :inner_block, required: true
+
   def banner(assigns) do
     ~H"""
     <div class="banner">
