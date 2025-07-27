@@ -14,6 +14,9 @@ defmodule RaffleyWeb.RaffleLive.Index do
     <div class="raffle-index">
       <.banner :let={vibe}>
         <.icon name="hero-sparkles-solid" /> Mystery  Raffle Coming Soon! {vibe}
+        <:details>
+          To Be Revealed Tomorrow
+        </:details>
       </.banner>
       <div class="raffles">
         <.raffle_card :for={raffle <- @raffles} raffle={raffle} />
@@ -23,6 +26,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
   end
 
   slot :inner_block, required: true
+  slot :details
 
   def banner(assigns) do
     assigns = assign(assigns, :emoji, ~w(\u{1f600} \u{1f60d} \u{1f917}) |> Enum.random())
@@ -32,6 +36,9 @@ defmodule RaffleyWeb.RaffleLive.Index do
       <h1>
         {render_slot(@inner_block, @emoji)}
       </h1>
+      <div class="details">
+        {render_slot(@details)}
+      </div>
     </div>
     """
   end
