@@ -17,6 +17,9 @@ defmodule RaffleyWeb.RaffleLive.Index do
         <:details :let={vibe}>
           To Be Revealed Tomorrow {vibe}
         </:details>
+        <:details>
+          Any guesses?
+        </:details>
       </.banner>
       <div class="raffles">
         <.raffle_card :for={raffle <- @raffles} raffle={raffle} />
@@ -36,8 +39,8 @@ defmodule RaffleyWeb.RaffleLive.Index do
       <h1>
         {render_slot(@inner_block)}
       </h1>
-      <div class="details">
-        {render_slot(@details, @emoji)}
+      <div :for={details <- @details} :if={@details != []} class="details">
+        {render_slot(details, @emoji)}
       </div>
     </div>
     """
