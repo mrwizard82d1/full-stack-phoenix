@@ -39,7 +39,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
       <h1>
         {render_slot(@inner_block)}
       </h1>
-      <div :for={details <- @details} :if={@details != []} class="details">
+      <div :for={details <- @details} class="details">
         {render_slot(details, @emoji)}
       </div>
     </div>
