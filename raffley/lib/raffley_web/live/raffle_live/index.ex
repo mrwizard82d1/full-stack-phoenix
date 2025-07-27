@@ -17,6 +17,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
         <:details>
           To Be Revealed Tomorrow
         </:details>
+        Larry
       </.banner>
       <div class="raffles">
         <.raffle_card :for={raffle <- @raffles} raffle={raffle} />
