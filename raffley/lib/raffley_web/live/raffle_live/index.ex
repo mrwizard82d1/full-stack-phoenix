@@ -12,7 +12,9 @@ defmodule RaffleyWeb.RaffleLive.Index do
   def render(assigns) do
     ~H"""
     <div class="raffle-index">
-      <.banner />
+      <.banner>
+        <.icon name="hero-sparkles-solid" /> Mystery  Raffle Coming Soon!
+      </.banner>
       <div class="raffles">
         <.raffle_card :for={raffle <- @raffles} raffle={raffle} />
       </div>
@@ -24,7 +26,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
     ~H"""
     <div class="banner">
       <h1>
-        <.icon name="hero-sparkles-solid" /> Mystery  Raffle Coming Soon!
+        {render_slot(@inner_block)}
       </h1>
     </div>
     """
