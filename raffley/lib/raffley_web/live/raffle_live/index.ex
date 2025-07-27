@@ -12,10 +12,10 @@ defmodule RaffleyWeb.RaffleLive.Index do
   def render(assigns) do
     ~H"""
     <div class="raffle-index">
-      <.banner :let={vibe}>
-        <.icon name="hero-sparkles-solid" /> Mystery  Raffle Coming Soon! {vibe}
-        <:details>
-          To Be Revealed Tomorrow
+      <.banner>
+        <.icon name="hero-sparkles-solid" /> Mystery  Raffle Coming Soon!
+        <:details :let={vibe}>
+          To Be Revealed Tomorrow {vibe}
         </:details>
       </.banner>
       <div class="raffles">
@@ -34,10 +34,10 @@ defmodule RaffleyWeb.RaffleLive.Index do
     ~H"""
     <div class="banner">
       <h1>
-        {render_slot(@inner_block, @emoji)}
+        {render_slot(@inner_block)}
       </h1>
       <div class="details">
-        {render_slot(@details)}
+        {render_slot(@details, @emoji)}
       </div>
     </div>
     """
