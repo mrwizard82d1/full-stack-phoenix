@@ -13,9 +13,12 @@ defmodule HeadsUpWeb.IncidentLive.Index do
     ~H"""
     <div class="incident-index">
       <div class="headline">
-        <.headline>
+        <CustomComponents.headline>
           <.icon name="hero-trophy-mini" /> 25 Incidents Resolved this Month!
-        </.headline>
+          <:tagline :let={vibe}>
+            Thanks for pitching in. {vibe}
+          </:tagline>
+        </CustomComponents.headline>
       </div>
       <div class="incidents">
         <.incident_card :for={incident <- @incidents} incident={incident} />
@@ -37,16 +40,6 @@ defmodule HeadsUpWeb.IncidentLive.Index do
           {@incident.priority}
         </div>
       </div>
-    </div>
-    """
-  end
-
-  def headline(assigns) do
-    ~H"""
-    <div class="headline">
-      <h1>
-        {render_slot(@inner_block)}
-      </h1>
     </div>
     """
   end
