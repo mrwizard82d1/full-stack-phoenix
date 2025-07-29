@@ -18,8 +18,9 @@ defmodule RaffleyWeb.EstimatorLive do
     IO.inspect(self(), label: "mount")
 
     # Most often return a two-item tuple
-    # But we can options such as the HTML `layout` to appy
-    {:ok, socket, layout: {RaffleyWeb.Layouts, :simple}}
+    # But we can options such as the HTML `layout` to apply
+    # {:ok, socket, layout: {RaffleyWeb.Layouts, :simple}}
+    {:ok, socket}
 
     # Note that the return value of `socket` is often inlined "in the wild"
     # {:ok, assign(socket, tickets: 0, price: 3)}
