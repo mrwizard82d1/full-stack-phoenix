@@ -32,11 +32,12 @@ defmodule RaffleyWeb.Router do
     pipe_through :browser
 
     # "Standard" HTTP routes
-    get "/", PageController, :home
+    # get "/", PageController, :home
     get "/rules", RuleController, :index
     get "/rules/:id", RuleController, :show
 
     # LiveView route
+    live "/", RaffleLive.Index, :home
     live "/estimator", EstimatorLive
     live "/raffles", RaffleLive.Index
   end
