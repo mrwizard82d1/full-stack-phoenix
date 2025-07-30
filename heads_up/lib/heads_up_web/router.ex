@@ -31,11 +31,12 @@ defmodule HeadsUpWeb.Router do
     pipe_through :browser
 
     # "Typical" web pages
-    get "/", PageController, :home
+    # get "/", PageController, :home
     get "/tips", TipController, :index
     get "/tips/:id", TipController, :show
 
     # LiveView pages
+    live "/", IncidentLive.Index
     live "/effort", EffortLive
     live "/incidents", IncidentLive.Index
   end
