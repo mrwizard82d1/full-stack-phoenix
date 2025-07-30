@@ -13,7 +13,7 @@ defmodule RaffleyWeb.EstimatorLive do
     end
 
     # Assigns two pieces of "state" for our "socket"
-    socket = assign(socket, tickets: 0, price: 3)
+    socket = assign(socket, tickets: 0, price: 3, page_title: "Estimator")
 
     IO.inspect(self(), label: "mount")
 
