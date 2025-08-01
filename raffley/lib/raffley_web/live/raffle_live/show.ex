@@ -16,7 +16,7 @@ defmodule RaffleyWeb.RaffleLive.Show do
   def render(assigns) do
     ~H"""
     <div class="raffle-show">
-      Details for raffle {@raffle}
+      Details for raffle {inspect(@raffle)}
     </div>
     """
   end

@@ -32,7 +32,11 @@ defmodule Raffley.Raffles do
     ]
   end
 
-  def get_raffle(id) do
-    String.to_integer(id)
+  def get_raffle(id) when is_integer(id) do
+    Enum.find(list_raffles(), fn r -> r.id == id end)
+  end
+
+  def get_raffle(id) when is_binary(id) do
+    get_raffle(String.to_integer(id))
   end
 end
