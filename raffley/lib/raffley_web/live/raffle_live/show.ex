@@ -4,7 +4,11 @@ defmodule RaffleyWeb.RaffleLive.Show do
   alias Raffley.Raffles
   import RaffleyWeb.CustomComponents
 
-  def mount(%{"id" => id}, _session, socket) do
+  def mount(_params, _session, socket) do
+    {:ok, socket}
+  end
+
+  def handle_params(%{"id" => id}, _uri, socket) do
     raffle = Raffles.get_raffle(id)
 
     socket =
@@ -12,7 +16,7 @@ defmodule RaffleyWeb.RaffleLive.Show do
       |> assign(:raffle, raffle)
       |> assign(:page_title, raffle.prize)
 
-    {:ok, socket}
+    {:noreply, socket}
   end
 
   def render(assigns) do
