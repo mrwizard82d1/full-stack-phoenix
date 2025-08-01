@@ -1,7 +1,9 @@
 defmodule RaffleyWeb.RaffleLive.Show do
   use RaffleyWeb, :live_view
 
-  def mount(_params, _session, socket) do
+  def mount(params, _session, socket) do
+    raise inspect(params, title: "params")
+
     {:ok, socket}
   end
 
