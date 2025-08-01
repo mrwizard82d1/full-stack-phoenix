@@ -37,6 +37,8 @@ defmodule Raffley.Raffles do
   end
 
   def get_raffle(id) when is_binary(id) do
-    get_raffle(String.to_integer(id))
+    id
+    |> String.to_integer()
+    |> get_raffle
   end
 end
