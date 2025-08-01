@@ -31,4 +31,8 @@ defmodule Raffley.Raffles do
       }
     ]
   end
+
+  def get_raffle(id) do
+    String.to_integer(id)
+  end
 end

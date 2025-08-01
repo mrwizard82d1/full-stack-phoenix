@@ -1,8 +1,14 @@
 defmodule RaffleyWeb.RaffleLive.Show do
   use RaffleyWeb, :live_view
 
-  def mount(params, _session, socket) do
-    raise inspect(params, title: "params")
+  alias Raffley.Raffles
+
+  def mount(%{"id" => id}, _session, socket) do
+    raffle = Raffles.get_raffle(id)
+
+    socket =
+      socket
+      |> assign(:raffle, raffle)
 
     {:ok, socket}
   end
@@ -10,7 +16,7 @@ defmodule RaffleyWeb.RaffleLive.Show do
   def render(assigns) do
     ~H"""
     <div class="raffle-show">
-      Details
+      Details for raffle {@raffle}
     </div>
     """
   end
