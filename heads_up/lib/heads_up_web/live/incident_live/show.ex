@@ -48,6 +48,8 @@ defmodule HeadsUpWeb.IncidentLive.Show do
     """
   end
 
+  attr :incidents, :list, required: true
+
   def urgent_incidents(assigns) do
     ~H"""
     <section>
