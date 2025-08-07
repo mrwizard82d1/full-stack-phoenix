@@ -28,7 +28,7 @@ defmodule HeadsUpWeb.CustomComponents do
         {render_slot(@inner_block)}
       </h1>
       <div :for={tagline <- @tagline} class="tagline">
-        {render_slot(@tagline, @emoji)}
+        {render_slot(tagline, @emoji)}
       </div>
     </div>
     """
