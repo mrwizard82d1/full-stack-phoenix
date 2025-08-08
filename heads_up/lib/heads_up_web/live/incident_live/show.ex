@@ -56,8 +56,10 @@ defmodule HeadsUpWeb.IncidentLive.Show do
       <h4>Urgent Incidents</h4>
       <ul class="incidents">
         <li :for={incident <- @incidents}>
-          <img src={incident.image_path} />
-          {incident.name}
+          <.link navigate={~p"/incidents/#{incident}"}>
+            <img src={incident.image_path} />
+            {incident.name}
+          </.link>
         </li>
       </ul>
     </section>
