@@ -6,6 +6,15 @@ defmodule RaffleyWeb.RaffleLive.Index do
 
   def mount(_params, _session, socket) do
     socket = stream(socket, :raffles, Raffles.list_raffles())
+
+    IO.inspect(socket.assigns.streams.raffles, label: "MOUNT")
+
+    socket =
+      attach_hook(socket, :log_stream, :after_render, fn socket ->
+        IO.inspect(socket.assigns.streams.raffles, label: "AFTER RENDER")
+        socket
+      end)
+
     {:ok, socket}
   end
 
