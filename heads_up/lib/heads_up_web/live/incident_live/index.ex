@@ -13,6 +13,14 @@ defmodule HeadsUpWeb.IncidentLive.Index do
         page_title: "Incidents"
       )
 
+    IO.inspect(socket.assigns.streams.incidents, label: "MOUNT")
+
+    socket =
+      attach_hook(socket, :log_stream, :after_render, fn socket ->
+        IO.inspect(socket.assigns.streams.incidents, label: "AFTER RENDER")
+        socket
+      end)
+
     {:ok, socket}
   end
 
