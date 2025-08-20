@@ -9,12 +9,10 @@ defmodule Raffley.Raffles do
   end
 
   def filter_raffes do
-    from(
-      Raffle
-      |> where(status: :closed)
-      |> order_by(:prize)
-      |> Repo.all()
-    )
+    Raffle
+    |> where(status: :closed)
+    |> order_by(:prize)
+    |> Repo.all()
   end
 
   def get_raffle!(id) do
