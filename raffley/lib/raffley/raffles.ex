@@ -11,6 +11,7 @@ defmodule Raffley.Raffles do
   def filter_raffes do
     Raffle
     |> where(status: :closed)
+    |> where([r], ilike(r.prize, "%gourmet%"))
     |> order_by(:prize)
     |> Repo.all()
   end
