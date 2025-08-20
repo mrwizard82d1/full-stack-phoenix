@@ -2,8 +2,19 @@ defmodule Raffley.Raffles do
   alias Raffley.Repo
   alias Raffley.Raffles.Raffle
 
+  import Ecto.Query
+
   def list_raffles do
     Repo.all(Raffle)
+  end
+
+  def filter_raffes do
+    from(
+      Raffle
+      |> where(status: :closed)
+      |> order_by(:prize)
+      |> Repo.all()
+    )
   end
 
   def get_raffle!(id) do
