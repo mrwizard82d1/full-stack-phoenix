@@ -5,7 +5,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
   import RaffleyWeb.CustomComponents
 
   def mount(_params, _session, socket) do
-    socket = stream(socket, :raffles, Raffles.list_raffles())
+    socket = stream(socket, :raffles, Raffles.filter_raffes())
 
     # IO.inspect(socket.assigns.streams.raffles, label: "MOUNT")
 
