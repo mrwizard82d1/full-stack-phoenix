@@ -9,7 +9,7 @@ defmodule HeadsUpWeb.IncidentLive.Index do
       stream(
         socket,
         :incidents,
-        Incidents.list_incidents(),
+        Incidents.filter_incidents(),
         page_title: "Incidents"
       )
 
