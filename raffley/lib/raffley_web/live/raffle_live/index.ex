@@ -6,7 +6,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
 
   def mount(_params, _session, socket) do
     # Temporarily setting values to test screen appearance
-    form = to_form(%{"q" => "", "status" => "open", "sort_by" => ""})
+    form = to_form(%{"q" => "", "status" => "", "sort_by" => ""})
 
     socket =
       socket
@@ -45,6 +45,13 @@ defmodule RaffleyWeb.RaffleLive.Index do
           field={@form[:status]}
           prompt="Status"
           options={[:upcoming, :open, :closed]}
+        />
+
+        <.input
+          type="select"
+          field={@form[:sort_by]}
+          prompt="Sort by"
+          options={[:prize, :ticket_price]}
         />
       </.form>
 
