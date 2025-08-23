@@ -5,7 +5,8 @@ defmodule RaffleyWeb.RaffleLive.Index do
   import RaffleyWeb.CustomComponents
 
   def mount(_params, _session, socket) do
-    form = to_form(%{"q" => "ride", "status" => "", "sort_by" => ""})
+    # Temporarily setting values to test screen appearance
+    form = to_form(%{"q" => "", "status" => "open", "sort_by" => ""})
 
     socket =
       socket
@@ -25,11 +26,6 @@ defmodule RaffleyWeb.RaffleLive.Index do
 
   def render(assigns) do
     ~H"""
-    <pre>
-      {inspect(@form, pretty: true)}
-      {inspect(@form[:q], pretty: true)}
-    </pre>
-
     <div class="raffle-index">
       <.banner :if={false}>
         <.icon name="hero-sparkles-solid" /> Mystery  Raffle Coming Soon!
@@ -42,7 +38,14 @@ defmodule RaffleyWeb.RaffleLive.Index do
       </.banner>
 
       <.form for={@form}>
-        <.input field={@form[:q]} />
+        <.input field={@form[:q]} placeholder="Search..." autocomplete="off" />
+
+        <.input
+          type="select"
+          field={@form[:status]}
+          prompt="Status"
+          options={[:upcoming, :open, :closed]}
+        />
       </.form>
 
       <div class="raffles" id="raffles" phx-update="stream">
