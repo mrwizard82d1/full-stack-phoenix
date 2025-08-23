@@ -48,7 +48,7 @@ defmodule HeadsUpWeb.IncidentLive.Index do
 
   def filter_form(assigns) do
     ~H"""
-    <.form for={@form}>
+    <.form for={@form} id="filter-form" phx-change="filter">
       <.input field={@form[:q]} placeholder="Search..." autocomplete="off" />
 
       <.input
@@ -81,5 +81,15 @@ defmodule HeadsUpWeb.IncidentLive.Index do
       </div>
     </.link>
     """
+  end
+
+  # Handle `filter` events (see `phx-change` tag in `filter_form/1`)
+  def handle_event("filter", params, socket) do
+    socket =
+      socket
+      |> assign(:form, to_form(params))
+      |> stream(:incidents, Incidents.filter_incidents(params), reset: true)
+
+    {:noreply, socket}
   end
 end
