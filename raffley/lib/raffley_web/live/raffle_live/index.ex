@@ -34,28 +34,34 @@ defmodule RaffleyWeb.RaffleLive.Index do
         </:details>
       </.banner>
 
-      <.form for={@form}>
-        <.input field={@form[:q]} placeholder="Search..." autocomplete="off" />
-
-        <.input
-          type="select"
-          field={@form[:status]}
-          prompt="Status"
-          options={[:upcoming, :open, :closed]}
-        />
-
-        <.input
-          type="select"
-          field={@form[:sort_by]}
-          prompt="Sort by"
-          options={[:prize, :ticket_price]}
-        />
-      </.form>
+      <.filter_form form={@form} />
 
       <div class="raffles" id="raffles" phx-update="stream">
         <.raffle_card :for={{dom_id, raffle} <- @streams.raffles} raffle={raffle} id={dom_id} />
       </div>
     </div>
+    """
+  end
+
+  def filter_form(assigns) do
+    ~H"""
+    <.form for={@form}>
+      <.input field={@form[:q]} placeholder="Search..." autocomplete="off" />
+
+      <.input
+        type="select"
+        field={@form[:status]}
+        prompt="Status"
+        options={[:upcoming, :open, :closed]}
+      />
+
+      <.input
+        type="select"
+        field={@form[:sort_by]}
+        prompt="Sort by"
+        options={[:prize, :ticket_price]}
+      />
+    </.form>
     """
   end
 
