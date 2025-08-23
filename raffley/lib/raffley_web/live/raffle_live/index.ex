@@ -6,7 +6,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
 
   def mount(_params, _session, socket) do
     # Temporarily setting values to test screen appearance
-    form = to_form(%{"q" => "", "status" => "", "sort_by" => ""})
+    form = to_form(%{})
 
     socket =
       socket
