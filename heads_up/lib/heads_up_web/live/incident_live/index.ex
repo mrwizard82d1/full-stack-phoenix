@@ -6,12 +6,9 @@ defmodule HeadsUpWeb.IncidentLive.Index do
 
   def mount(_params, _session, socket) do
     socket =
-      stream(
-        socket,
-        :incidents,
-        Incidents.filter_incidents(),
-        page_title: "Incidents"
-      )
+      socket
+      |> stream(:incidents, Incidents.list_incidents(), page_title: "Incidents")
+      |> assign(:form, to_form(%{}))
 
     # IO.inspect(socket.assigns.streams.incidents, label: "MOUNT")
 
@@ -35,6 +32,9 @@ defmodule HeadsUpWeb.IncidentLive.Index do
           </:tagline>
         </CustomComponents.headline>
       </div>
+
+      <.filter_form form={@form} />
+
       <div class="incidents" id="incidents" phx-update="stream">
         <.incident_card
           :for={{dom_id, incident} <- @streams.incidents}
@@ -43,6 +43,23 @@ defmodule HeadsUpWeb.IncidentLive.Index do
         />
       </div>
     </div>
+    """
+  end
+
+  def filter_form(assigns) do
+    ~H"""
+    <.form for={@form}>
+      <.input field={@form[:q]} placeholder="Search..." autocomplete="off" />
+
+      <.input
+        type="select"
+        field={@form[:status]}
+        prompt="Status"
+        options={[:pending, :canceled, :resolved]}
+      />
+
+      <.input type="select" field={@form[:sort_by]} prompt="Sort by" options={[:name, :priority]} />
+    </.form>
     """
   end
 
