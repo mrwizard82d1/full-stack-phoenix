@@ -5,13 +5,10 @@ defmodule RaffleyWeb.RaffleLive.Index do
   import RaffleyWeb.CustomComponents
 
   def mount(_params, _session, socket) do
-    # Temporarily setting values to test screen appearance
-    form = to_form(%{})
-
     socket =
       socket
       |> stream(:raffles, Raffles.list_raffles())
-      |> assign(:form, form)
+      |> assign(:form, to_form(%{}))
 
     # IO.inspect(socket.assigns.streams.raffles, label: "MOUNT")
 
