@@ -75,6 +75,10 @@ defmodule HeadsUpWeb.IncidentLive.Index do
           "Priority Low-to-High": :priority_asc
         ]}
       />
+
+      <.link navigate={~p"/incidents"}>
+        Reset
+      </.link>
     </.form>
     """
   end
