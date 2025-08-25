@@ -5,11 +5,6 @@ defmodule RaffleyWeb.RaffleLive.Index do
   import RaffleyWeb.CustomComponents
 
   def mount(_params, _session, socket) do
-    socket =
-      socket
-      |> stream(:raffles, Raffles.list_raffles())
-      |> assign(:form, to_form(%{}))
-
     # IO.inspect(socket.assigns.streams.raffles, label: "MOUNT")
 
     # socket =
@@ -19,6 +14,19 @@ defmodule RaffleyWeb.RaffleLive.Index do
     #   end)
 
     {:ok, socket}
+  end
+
+  def handle_params(params, uri, socket) do
+    # This function is the appropriate place to **filter** our
+    # raffles based on the provided parameters.
+
+    # Begin by adding all raffles matching our filter to the stream
+    socket =
+      socket
+      |> stream(:raffles, Raffles.filter_raffles(params))
+      |> assign(:form, to_form(params))
+
+    {:noreply, socket}
   end
 
   def render(assigns) do
@@ -91,11 +99,6 @@ defmodule RaffleyWeb.RaffleLive.Index do
 
   # Handle filter events (see `phx-change` in `filter_form/1`)
   def handle_event("filter", params, socket) do
-    socket =
-      socket
-      |> assign(:form, to_form(params))
-      |> stream(:raffles, Raffles.filter_raffes(params), reset: true)
-
     params =
       params
       |> Map.take(~w(q status sort_by))
@@ -106,7 +109,9 @@ defmodule RaffleyWeb.RaffleLive.Index do
     # - Mounts a **new view**
     #
     # This action dismounts the current **filtered** view and then mounts a
-    # view with **no filters**!
+    # view with **no filters**! (See `mount/3 for this action.) This call to
+    # `mount/3` will be followed by a call to `handle_params/3` to update the
+    # state of the new view.
     socket = push_navigate(socket, to: ~p"/raffles?#{params}")
 
     {:noreply, socket}
