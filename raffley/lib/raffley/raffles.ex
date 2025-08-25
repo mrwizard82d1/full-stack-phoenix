@@ -8,7 +8,7 @@ defmodule Raffley.Raffles do
     Repo.all(Raffle)
   end
 
-  def filter_raffes(filter) do
+  def filter_raffles(filter) do
     Raffle
     |> with_status(filter["status"])
     |> search_by(filter["q"])
