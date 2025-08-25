@@ -69,7 +69,11 @@ defmodule HeadsUpWeb.IncidentLive.Index do
         type="select"
         field={@form[:sort_by]}
         prompt="Sort by"
-        options={[:name, :priority_desc, :priority_asc]}
+        options={[
+          Name: :name,
+          "Priority High-to-Low": :priority_desc,
+          "Priority Low-to-High": :priority_asc
+        ]}
       />
     </.form>
     """
