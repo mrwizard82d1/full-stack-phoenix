@@ -5,11 +5,6 @@ defmodule HeadsUpWeb.IncidentLive.Index do
   alias HeadsUpWeb.CustomComponents
 
   def mount(_params, _session, socket) do
-    socket =
-      socket
-      |> stream(:incidents, Incidents.list_incidents(), page_title: "Incidents")
-      |> assign(:form, to_form(%{}))
-
     # IO.inspect(socket.assigns.streams.incidents, label: "MOUNT")
 
     # socket =
@@ -19,6 +14,15 @@ defmodule HeadsUpWeb.IncidentLive.Index do
     #   end)
 
     {:ok, socket}
+  end
+
+  def handle_params(params, _uri, socket) do
+    socket =
+      socket
+      |> stream(:incidents, Incidents.filter_incidents(params), page_title: "Incidents")
+      |> assign(:form, to_form(params))
+
+    {:noreply, socket}
   end
 
   def render(assigns) do
@@ -93,10 +97,20 @@ defmodule HeadsUpWeb.IncidentLive.Index do
 
   # Handle `filter` events (see `phx-change` tag in `filter_form/1`)
   def handle_event("filter", params, socket) do
-    socket =
-      socket
-      |> assign(:form, to_form(params))
-      |> stream(:incidents, Incidents.filter_incidents(params), reset: true)
+    params =
+      params
+      |> Map.take(~w(q status sort_by))
+      |> Map.reject(fn {_, v} -> v == "" end)
+
+    # Calling `push_navigate`
+    # - Dismounts the current view and
+    # - Mounts a **new view**
+    #
+    # This action dismounts the current **filtered** view and then mounts a
+    # view with **no filters**! (See `mount/3 for this action.) This call to
+    # `mount/3` will be followed by a call to `handle_params/3` to update the
+    # state of the new view.
+    socket = push_navigate(socket, to: ~p"/incidents?#{params}")
 
     {:noreply, socket}
   end
