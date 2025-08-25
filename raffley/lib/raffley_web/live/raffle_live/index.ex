@@ -59,7 +59,11 @@ defmodule RaffleyWeb.RaffleLive.Index do
         type="select"
         field={@form[:sort_by]}
         prompt="Sort by"
-        options={[:prize, :ticket_price]}
+        options={[
+          Prize: "prize",
+          "Price: High to Low": "ticket_price_desc",
+          "Price: Low to High": "ticket_price_asc"
+        ]}
       />
     </.form>
     """

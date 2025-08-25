@@ -33,8 +33,12 @@ defmodule Raffley.Raffles do
     order_by(query, :prize)
   end
 
-  defp sort(query, "ticket_price") do
+  defp sort(query, "ticket_price_desc") do
     order_by(query, desc: :ticket_price)
+  end
+
+  defp sort(query, "ticket_price_asc") do
+    order_by(query, asc: :ticket_price)
   end
 
   defp sort(query, _) do
