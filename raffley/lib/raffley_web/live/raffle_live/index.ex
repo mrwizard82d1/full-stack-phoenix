@@ -96,6 +96,17 @@ defmodule RaffleyWeb.RaffleLive.Index do
       |> assign(:form, to_form(params))
       |> stream(:raffles, Raffles.filter_raffes(params), reset: true)
 
+    params =
+      params
+      |> Map.take(~w(q status sort_by))
+      |> Map.reject(fn {_, v} -> v == "" end)
+
+    # Calling `push_navigate`
+    # - Dismounts the current view and
+    # - Mounts a **new view**
+    #
+    # This action dismounts the current **filtered** view and then mounts a
+    # view with **no filters**!
     socket = push_navigate(socket, to: ~p"/raffles?#{params}")
 
     {:noreply, socket}
