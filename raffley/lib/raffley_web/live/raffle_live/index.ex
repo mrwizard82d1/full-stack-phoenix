@@ -16,7 +16,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
     {:ok, socket}
   end
 
-  def handle_params(params, uri, socket) do
+  def handle_params(params, _uri, socket) do
     # This function is the appropriate place to **filter** our
     # raffles based on the provided parameters.
 
