@@ -36,6 +36,9 @@ defmodule HeadsUpWeb.IncidentLive.Index do
       <.filter_form form={@form} />
 
       <div class="incidents" id="incidents" phx-update="stream">
+        <div id="empty" class="no-results only:block hidden">
+          No raffles found. Try changing your filters.
+        </div>
         <.incident_card
           :for={{dom_id, incident} <- @streams.incidents}
           incident={incident}
