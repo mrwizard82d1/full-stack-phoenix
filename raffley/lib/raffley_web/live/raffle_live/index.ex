@@ -96,6 +96,8 @@ defmodule RaffleyWeb.RaffleLive.Index do
       |> assign(:form, to_form(params))
       |> stream(:raffles, Raffles.filter_raffes(params), reset: true)
 
+    socket = push_navigate(socket, to: ~p"/raffles?#{params}")
+
     {:noreply, socket}
   end
 end
