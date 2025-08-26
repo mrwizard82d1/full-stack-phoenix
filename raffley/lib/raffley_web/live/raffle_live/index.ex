@@ -4,6 +4,14 @@ defmodule RaffleyWeb.RaffleLive.Index do
   alias Raffley.Raffles
   import RaffleyWeb.CustomComponents
 
+  # Remember, `mount/3` is **not** invoked from calls to `patch` or to `push_patch`.
+  # Because `mount/3` is **not** invoked from these calls, we need to
+  # - Move "initialization" code to `handle_params/3` if possible.
+  #
+  # Remember, too, if you **call neither** `patch` nor `push_patch`,
+  # one **may** perform initialization in either:
+  # - `mount/3` or
+  # - `handle_params/3`
   def mount(_params, _session, socket) do
     IO.inspect(self(), label: "MOUNT")
 
@@ -24,10 +32,13 @@ defmodule RaffleyWeb.RaffleLive.Index do
     # This function is the appropriate place to **filter** our
     # raffles based on the provided parameters.
 
-    # Begin by adding all raffles matching our filter to the stream
+    # After changing implementation to call `patch` variants instead of
+    # `navigate`, we have a problem: The call to `stream` **does not reset**
+    # the view data. We mut add the `reset: true` argument to reset the
+    # stream data.
     socket =
       socket
-      |> stream(:raffles, Raffles.filter_raffles(params))
+      |> stream(:raffles, Raffles.filter_raffles(params), reset: true)
       |> assign(:form, to_form(params))
 
     {:noreply, socket}
