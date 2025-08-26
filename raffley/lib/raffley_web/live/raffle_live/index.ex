@@ -13,8 +13,6 @@ defmodule RaffleyWeb.RaffleLive.Index do
   # - `mount/3` or
   # - `handle_params/3`
   def mount(_params, _session, socket) do
-    IO.inspect(self(), label: "MOUNT")
-
     # IO.inspect(socket.assigns.streams.raffles, label: "MOUNT")
 
     # socket =
@@ -27,8 +25,6 @@ defmodule RaffleyWeb.RaffleLive.Index do
   end
 
   def handle_params(params, _uri, socket) do
-    IO.inspect(self(), label: "HANDLE PARAMS")
-
     # This function is the appropriate place to **filter** our
     # raffles based on the provided parameters.
 
@@ -45,8 +41,6 @@ defmodule RaffleyWeb.RaffleLive.Index do
   end
 
   def render(assigns) do
-    IO.inspect(self(), label: "RENDER")
-
     ~H"""
     <div class="raffle-index">
       <.banner :if={false}>
