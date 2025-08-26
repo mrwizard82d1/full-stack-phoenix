@@ -19,7 +19,10 @@ defmodule HeadsUpWeb.IncidentLive.Index do
   def handle_params(params, _uri, socket) do
     socket =
       socket
-      |> stream(:incidents, Incidents.filter_incidents(params), page_title: "Incidents")
+      |> stream(:incidents, Incidents.filter_incidents(params),
+        page_title: "Incidents",
+        reset: true
+      )
       |> assign(:form, to_form(params))
 
     {:noreply, socket}
@@ -76,7 +79,7 @@ defmodule HeadsUpWeb.IncidentLive.Index do
         ]}
       />
 
-      <.link navigate={~p"/incidents"}>
+      <.link patch={~p"/incidents"}>
         Reset
       </.link>
     </.form>
@@ -118,7 +121,7 @@ defmodule HeadsUpWeb.IncidentLive.Index do
     # view with **no filters**! (See `mount/3 for this action.) This call to
     # `mount/3` will be followed by a call to `handle_params/3` to update the
     # state of the new view.
-    socket = push_navigate(socket, to: ~p"/incidents?#{params}")
+    socket = push_patch(socket, to: ~p"/incidents?#{params}")
 
     {:noreply, socket}
   end
