@@ -5,6 +5,8 @@ defmodule HeadsUpWeb.IncidentLive.Index do
   alias HeadsUpWeb.CustomComponents
 
   def mount(_params, _session, socket) do
+    IO.inspect(self(), label: "MOUNT")
+
     # IO.inspect(socket.assigns.streams.incidents, label: "MOUNT")
 
     # socket =
@@ -17,6 +19,8 @@ defmodule HeadsUpWeb.IncidentLive.Index do
   end
 
   def handle_params(params, _uri, socket) do
+    IO.inspect(self(), label: "HANDLE PARAMS")
+
     socket =
       socket
       |> stream(:incidents, Incidents.filter_incidents(params),
@@ -29,6 +33,8 @@ defmodule HeadsUpWeb.IncidentLive.Index do
   end
 
   def render(assigns) do
+    IO.inspect(self(), label: "RENDER")
+
     ~H"""
     <div class="incident-index">
       <div class="headline">
