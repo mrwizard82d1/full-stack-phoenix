@@ -80,7 +80,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
         ]}
       />
 
-      <.link navigate={~p"/raffles"}>
+      <.link patch={~p"/raffles"}>
         Reset
       </.link>
     </.form>
