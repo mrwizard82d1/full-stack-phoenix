@@ -5,6 +5,8 @@ defmodule RaffleyWeb.RaffleLive.Index do
   import RaffleyWeb.CustomComponents
 
   def mount(_params, _session, socket) do
+    IO.inspect(self(), label: "MOUNT")
+
     # IO.inspect(socket.assigns.streams.raffles, label: "MOUNT")
 
     # socket =
@@ -17,6 +19,8 @@ defmodule RaffleyWeb.RaffleLive.Index do
   end
 
   def handle_params(params, _uri, socket) do
+    IO.inspect(self(), label: "HANDLE PARAMS")
+
     # This function is the appropriate place to **filter** our
     # raffles based on the provided parameters.
 
@@ -30,6 +34,8 @@ defmodule RaffleyWeb.RaffleLive.Index do
   end
 
   def render(assigns) do
+    IO.inspect(self(), label: "RENDER")
+
     ~H"""
     <div class="raffle-index">
       <.banner :if={false}>
@@ -108,15 +114,10 @@ defmodule RaffleyWeb.RaffleLive.Index do
       |> Map.take(~w(q status sort_by))
       |> Map.reject(fn {_, v} -> v == "" end)
 
-    # Calling `push_navigate`
-    # - Dismounts the current view and
-    # - Mounts a **new view**
-    #
-    # This action dismounts the current **filtered** view and then mounts a
-    # view with **no filters**! (See `mount/3 for this action.) This call to
-    # `mount/3` will be followed by a call to `handle_params/3` to update the
-    # state of the new view.
-    socket = push_navigate(socket, to: ~p"/raffles?#{params}")
+    # Calling `push_patch`
+    # - Does not perform a "dismount/mount" cycle
+    # - But "patches" the current view with the filtered data
+    socket = push_patch(socket, to: ~p"/raffles?#{params}")
 
     {:noreply, socket}
   end
