@@ -58,7 +58,7 @@ defmodule RaffleyWeb.RaffleLive.Show do
     ~H"""
     <section>
       <h4>Featured Raffles</h4>
-      <.async_result assign={@raffles}>
+      <.async_result :let={result} assign={@raffles}>
         <:loading>
           <div class="loading">
             <div class="spinner"></div>
@@ -75,7 +75,7 @@ defmodule RaffleyWeb.RaffleLive.Show do
         is available.
         -->
         <ul class="raffles">
-          <li :for={raffle <- @raffles.result}>
+          <li :for={raffle <- result}>
             <.link navigate={~p"/raffles/#{raffle}"}>
               <img src={raffle.image_path} /> {raffle.prize}
             </.link>
