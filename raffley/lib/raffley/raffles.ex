@@ -50,6 +50,9 @@ defmodule Raffley.Raffles do
   end
 
   def featured_raffles(raffle) do
+    # Simulate a slow query
+    Process.sleep(2000)
+
     Raffle
     |> where(status: :open)
     |> where([r], r.id != ^raffle.id)

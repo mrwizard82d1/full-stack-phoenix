@@ -13,6 +13,9 @@ defmodule RaffleyWeb.RaffleLive.Show do
     IO.inspect(self(), label: "HANDLE_PARAMS")
     raffle = Raffles.get_raffle!(id)
 
+    # All the `assign` calls are executed **synchronously**; because
+    # we've introduced a delay into `featured_raffles/1`, everything
+    # now seems slow.
     socket =
       socket
       |> assign(:raffle, raffle)
