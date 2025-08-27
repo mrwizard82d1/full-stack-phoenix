@@ -20,15 +20,25 @@ defmodule RaffleyWeb.RaffleLive.Show do
       socket
       |> assign(:raffle, raffle)
       |> assign(:page_title, raffle.prize)
-      |> assign(:featured_raffles, Raffles.featured_raffles(raffle))
+      # The function, `assign_async/2`, takes a key and a function to be
+      # executed asynchronously. The function returns a tuple consisting of
+      # an atom and a map containing the key passed to `assign_async/2`.
+      # In addition, the function argument is then executed asynchronously.
+      # This action allows the containing function to return and render
+      # the page incompletely while awaiting the result of the asynchronous
+      # function.
+      |> assign_async(:featured_raffles, fn ->
+        {:ok, %{featured_raffles: Raffles.featured_raffles(raffle)}}
+      end)
 
     {:noreply, socket}
   end
 
   def render(assigns) do
-    IO.inspect(self(), label: "RENDER")
-
     ~H"""
+    <pre>
+      {inspect(@featured_raffles, pretty: true)}
+    </pre>
     <div class="raffle-show">
       <div class="raffle">
         <img src={@raffle.image_path} />
@@ -48,7 +58,7 @@ defmodule RaffleyWeb.RaffleLive.Show do
       <div class="activity">
         <div class="left"></div>
         <div class="right">
-          <.featured_raffles raffles={@featured_raffles} />
+          <.featured_raffles :if={false} raffles={@featured_raffles} />
         </div>
       </div>
     </div>
