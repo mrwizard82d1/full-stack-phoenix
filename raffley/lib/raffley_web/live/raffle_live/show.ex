@@ -58,19 +58,30 @@ defmodule RaffleyWeb.RaffleLive.Show do
     ~H"""
     <section>
       <h4>Featured Raffles</h4>
-      <div :if={@raffles.loading} class="loading">
-        <div class="spinner"></div>
-      </div>
-      <div :if={@raffles.failed} class="faile">
-        Yikes!
-      </div>
-      <ul :if={@raffles.ok?} class="raffles">
-        <li :for={raffle <- @raffles.result}>
-          <.link navigate={~p"/raffles/#{raffle}"}>
-            <img src={raffle.image_path} /> {raffle.prize}
-          </.link>
-        </li>
-      </ul>
+      <.async_result assign={@raffles}>
+        <:loading>
+          <div class="loading">
+            <div class="spinner"></div>
+          </div>
+        </:loading>
+        <:failed :let={{:error, reason}}>
+          <div class="failed">
+            Yikes: {reason}
+          </div>
+        </:failed>
+        <!--
+        The following block is in the "default slot" of the `async_result`
+        component. As a consequence, it is only rendered when the result
+        is available.
+        -->
+        <ul class="raffles">
+          <li :for={raffle <- @raffles.result}>
+            <.link navigate={~p"/raffles/#{raffle}"}>
+              <img src={raffle.image_path} /> {raffle.prize}
+            </.link>
+          </li>
+        </ul>
+      </.async_result>
     </section>
     """
   end
