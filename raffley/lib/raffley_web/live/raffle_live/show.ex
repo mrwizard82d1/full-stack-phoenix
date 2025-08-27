@@ -13,22 +13,14 @@ defmodule RaffleyWeb.RaffleLive.Show do
     IO.inspect(self(), label: "HANDLE_PARAMS")
     raffle = Raffles.get_raffle!(id)
 
-    # All the `assign` calls are executed **synchronously**; because
-    # we've introduced a delay into `featured_raffles/1`, everything
-    # now seems slow.
     socket =
       socket
       |> assign(:raffle, raffle)
       |> assign(:page_title, raffle.prize)
-      # The function, `assign_async/2`, takes a key and a function to be
-      # executed asynchronously. The function returns a tuple consisting of
-      # an atom and a map containing the key passed to `assign_async/2`.
-      # In addition, the function argument is then executed asynchronously.
-      # This action allows the containing function to return and render
-      # the page incompletely while awaiting the result of the asynchronous
-      # function.
+      # Simulate that an error occurs when fetching featured raffles.
       |> assign_async(:featured_raffles, fn ->
-        {:ok, %{featured_raffles: Raffles.featured_raffles(raffle)}}
+        # {:ok, %{featured_raffles: Raffles.featured_raffles(raffle)}}
+        {:error, "Out to lunch!"}
       end)
 
     {:noreply, socket}
@@ -36,7 +28,7 @@ defmodule RaffleyWeb.RaffleLive.Show do
 
   def render(assigns) do
     ~H"""
-    <pre :if={false}>
+    <pre>
       {inspect(@featured_raffles, pretty: true)}
     </pre>
     <div class="raffle-show">
