@@ -69,6 +69,9 @@ defmodule RaffleyWeb.RaffleLive.Show do
     ~H"""
     <section>
       <h4>Featured Raffles</h4>
+      <div :if={@raffles.loading} class="loading">
+        <div class="spinner"></div>
+      </div>
       <!--
       Because `@raffles` is an asynchronous result, we need to check if
       it has been resolved **before** attempting to render each
