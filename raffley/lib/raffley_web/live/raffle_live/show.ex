@@ -19,8 +19,8 @@ defmodule RaffleyWeb.RaffleLive.Show do
       |> assign(:page_title, raffle.prize)
       # Simulate that an error occurs when fetching featured raffles.
       |> assign_async(:featured_raffles, fn ->
-        # {:ok, %{featured_raffles: Raffles.featured_raffles(raffle)}}
-        {:error, "Out to lunch!"}
+        {:ok, %{featured_raffles: Raffles.featured_raffles(raffle)}}
+        # {:error, "Out to lunch!"}
       end)
 
     {:noreply, socket}
