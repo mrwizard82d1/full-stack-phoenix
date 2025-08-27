@@ -36,7 +36,7 @@ defmodule RaffleyWeb.RaffleLive.Show do
 
   def render(assigns) do
     ~H"""
-    <pre>
+    <pre :if={false}>
       {inspect(@featured_raffles, pretty: true)}
     </pre>
     <div class="raffle-show">
@@ -58,7 +58,7 @@ defmodule RaffleyWeb.RaffleLive.Show do
       <div class="activity">
         <div class="left"></div>
         <div class="right">
-          <.featured_raffles :if={false} raffles={@featured_raffles} />
+          <.featured_raffles raffles={@featured_raffles} />
         </div>
       </div>
     </div>
@@ -69,8 +69,18 @@ defmodule RaffleyWeb.RaffleLive.Show do
     ~H"""
     <section>
       <h4>Featured Raffles</h4>
-      <ul class="raffles">
-        <li :for={raffle <- @raffles}>
+      <!--
+      Because `@raffles` is an asynchronous result, we need to check if
+      it has been resolved **before** attempting to render each
+      featured raffle.
+      -->
+      <ul :if={@raffles.ok?} class="raffles">
+        <!--
+        Because we are fetching the raffles asynchronously, we now query
+        the asynchronous result of the fetch. This action will implicitly
+        await the asynchronous result.
+        -->
+        <li :for={raffle <- @raffles.result}>
           <.link navigate={~p"/raffles/#{raffle}"}>
             <img src={raffle.image_path} /> {raffle.prize}
           </.link>
