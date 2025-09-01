@@ -27,7 +27,10 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
         options={[:upcoming, :open, :closed]}
       />
       <.input field={@form[:image_path]} label="Image Path" />
-      <.button>Save Raffle</.button>
+
+      <:actions>
+        <.button>Save Raffle</.button>
+      </:actions>
     </.simple_form>
     """
   end
