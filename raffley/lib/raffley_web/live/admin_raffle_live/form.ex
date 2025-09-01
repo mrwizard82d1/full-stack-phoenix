@@ -15,7 +15,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
     <.header>
       {@page_title}
     </.header>
-    <.form for={@form} id="raffle-form">
+    <.simple_form for={@form} id="raffle-form">
       <.input field={@form[:prize]} label="Prize" />
       <.input field={@form[:description]} type="textarea" label="Description" />
       <.input field={@form[:ticket_price]} type="number" label="Ticket Price" />
@@ -28,7 +28,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
       />
       <.input field={@form[:image_path]} label="Image Path" />
       <.button>Save Raffle</.button>
-    </.form>
+    </.simple_form>
     """
   end
 end
