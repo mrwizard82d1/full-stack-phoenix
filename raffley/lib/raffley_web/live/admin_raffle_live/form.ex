@@ -34,9 +34,9 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
       </:actions>
     </.simple_form>
 
-    <.link navigate={~p"/admin/raffles"}>
+    <.back navigate={~p"/admin/raffles"}>
       Back
-    </.link>
+    </.back>
     """
   end
 end
