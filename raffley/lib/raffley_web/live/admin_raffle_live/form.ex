@@ -1,4 +1,5 @@
 defmodule RaffleyWeb.AdminRaffleLive.Form do
+  alias Gettext.Backend
   use RaffleyWeb, :live_view
 
   def mount(_params, _session, socket) do
@@ -32,6 +33,10 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
         <.button>Save Raffle</.button>
       </:actions>
     </.simple_form>
+
+    <.link navigate={~p"/admin/raffles"}>
+      Back
+    </.link>
     """
   end
 end
