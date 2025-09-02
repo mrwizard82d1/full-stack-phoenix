@@ -16,8 +16,10 @@ defmodule Raffley.Admin do
     %Raffle{
       prize: attrs["prize"],
       description: attrs["description"],
-      ticket_price: attrs["ticket_price"],
-      status: attrs["status"],
+      ticket_price: attrs["ticket_price"] |> String.to_integer(),
+      # WARNING: This is a hacky way to convert a string to an atom.
+      # It's not recommended for production use.
+      status: attrs["status"] |> String.to_existing_atom(),
       image_path: attrs["image_path"]
     }
     |> Repo.insert!()

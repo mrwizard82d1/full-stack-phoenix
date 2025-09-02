@@ -45,7 +45,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
     # Ignore the returned value.
     _raffle = Admin.create_raffle(raffle_params)
 
-    push_navigate(socket, to: ~p"/admin/raffles")
+    socket = push_navigate(socket, to: ~p"/admin/raffles")
 
     {:noreply, socket}
   end
