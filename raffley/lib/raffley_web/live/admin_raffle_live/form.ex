@@ -40,6 +40,10 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
       </:actions>
     </.simple_form>
 
+    <pre>
+      {inspect(@form, pretty: true)}
+    </pre>
+
     <.back navigate={~p"/admin/raffles"}>
       Back
     </.back>
