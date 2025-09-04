@@ -2,12 +2,17 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
   use RaffleyWeb, :live_view
 
   alias Raffley.Admin
+  alias Raffley.Raffles.Raffle
 
   def mount(_params, _session, socket) do
+    # Create a `ChangeSet` from an empty `Raffle` struct and an empty set
+    # of attributes (`attrs`).
+    changeset = Raffle.changeset(%Raffle{}, %{})
+
     socket =
       socket
       |> assign(:page_title, "New Raffle")
-      |> assign(:form, to_form(%{}, as: "raffle"))
+      |> assign(:form, to_form(changeset))
 
     {:ok, socket}
   end
@@ -55,7 +60,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
         {:noreply, socket}
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :form, to_form(changeset))}
+        {:noreply, socket}
     end
   end
 end
