@@ -64,6 +64,8 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
         {:noreply, socket}
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        # Include "errors" in data assigned to `socket`
+        socket = assign(socket, :form, to_form(changeset))
         {:noreply, socket}
     end
   end
