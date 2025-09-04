@@ -22,7 +22,17 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
     <.header>
       {@page_title}
     </.header>
+
     <.simple_form for={@form} id="raffle-form" phx-submit="save">
+      <!--
+      Errors are handled "automagically" by Phoenix. The function,
+      `Admin.create_raffle/1`, creates a new raffle. But this function
+      calls `Raffle.changeset/2` with the data for the Raffle to create.
+      `Raffle.changeset/2` returns a changeset, but it also validates the
+      candidate data for the Raffle that is to be created. If the data is
+      invalid, the changeset will contain the errors which should be
+      displayed to the user.
+      -->
       <.input field={@form[:prize]} label="Prize" />
       <.input field={@form[:description]} type="textarea" label="Description" />
       <.input field={@form[:ticket_price]} type="number" label="Ticket Price" />
