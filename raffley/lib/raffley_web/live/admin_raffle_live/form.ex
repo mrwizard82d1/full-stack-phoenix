@@ -43,10 +43,18 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
 
   def handle_event("save", %{"raffle" => raffle_params}, socket) do
     # Ignore the returned value.
-    _raffle = Admin.create_raffle(raffle_params)
+    case Admin.create_raffle(raffle_params) do
+      # Since `create_raffle/1` now returns a tuple, we pattern match
+      # on that returned tuple.
+      {:ok, _raffle} ->
+        socket =
+          socket
+          |> push_navigate(to: ~p"/admin/raffles")
 
-    socket = push_navigate(socket, to: ~p"/admin/raffles")
+        {:noreply, socket}
 
-    {:noreply, socket}
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :form, to_form(changeset))}
+    end
   end
 end
