@@ -49,6 +49,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
       {:ok, _raffle} ->
         socket =
           socket
+          |> put_flash(:info, "Raffle created successfully")
           |> push_navigate(to: ~p"/admin/raffles")
 
         {:noreply, socket}
