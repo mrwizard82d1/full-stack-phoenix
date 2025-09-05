@@ -34,7 +34,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
       displayed to the user.
       -->
       <.input field={@form[:prize]} label="Prize" />
-      <.input field={@form[:description]} type="textarea" label="Description" phx-debounce="2000" />
+      <.input field={@form[:description]} type="textarea" label="Description" phx-debounce="blur" />
       <.input field={@form[:ticket_price]} type="number" label="Ticket Price" />
       <.input
         field={@form[:status]}
