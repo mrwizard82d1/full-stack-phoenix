@@ -1,4 +1,5 @@
 defmodule Raffley.Admin do
+  alias GenLSP.Structures.TypeHierarchyRegistrationOptions
   alias Raffley.Raffles.Raffle
   alias Raffley.Repo
 
@@ -16,5 +17,23 @@ defmodule Raffley.Admin do
     %Raffle{}
     |> Raffle.changeset(attrs)
     |> Repo.insert()
+  end
+
+  # By convention, the name `change_raffle` is called to validate the
+  # Raffle changeset.
+  #
+  # By convention, we match the first parameter to its type. This, we
+  # enforce that the first parameter, `raffle` matches the `Raffle` struct.
+  #
+  # Remember, too, that the attributes, `attrs` are **optional**. The
+  # value of this arguments defaults to an empty map.
+  #
+  # Unfortunately, the name of this function **can be misleading**. This
+  # function does not actually change the raffle, but, instead, creates
+  # a changeset. Additionally, it may seem silly to create a function that
+  # performs a single transformation; however, in experience, this function
+  # is more useful than is apparent.
+  def change_raffle(%Raffle{} = raffle, attrs \\ %{}) do
+    Raffle.changeset(raffle, attrs)
   end
 end

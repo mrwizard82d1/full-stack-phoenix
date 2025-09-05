@@ -7,7 +7,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
   def mount(_params, _session, socket) do
     # Create a `ChangeSet` from an empty `Raffle` struct and an empty set
     # of attributes (`attrs`).
-    changeset = Raffle.changeset(%Raffle{}, %{})
+    changeset = Admin.change_raffle(%Raffle{})
 
     socket =
       socket
@@ -61,7 +61,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
   end
 
   def handle_event("validate", %{"raffle" => raffle_params}, socket) do
-    changeset = Raffle.changeset(%Raffle{}, raffle_params)
+    changeset = Admin.change_raffle(%Raffle{}, raffle_params)
     socket = assign(socket, :form, to_form(changeset, action: :validate))
     {:noreply, socket}
   end
