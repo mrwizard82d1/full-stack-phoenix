@@ -23,7 +23,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
       {@page_title}
     </.header>
 
-    <.simple_form for={@form} id="raffle-form" phx-submit="save">
+    <.simple_form for={@form} id="raffle-form" phx-submit="save" phx-change="validate">
       <!--
       Errors are handled "automagically" by Phoenix. The function,
       `Admin.create_raffle/1`, creates a new raffle. But this function
@@ -58,6 +58,12 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
       Back
     </.back>
     """
+  end
+
+  def handle_event("validate", %{"raffle" => raffle_params}, socket) do
+    changeset = Raffle.changeset(%Raffle{}, raffle_params)
+    socket = assign(socket, :form, to_form(changeset))
+    {:noreply, socket}
   end
 
   def handle_event("save", %{"raffle" => raffle_params}, socket) do
