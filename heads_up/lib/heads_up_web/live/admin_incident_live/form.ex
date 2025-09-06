@@ -59,7 +59,7 @@ defmodule HeadsUpWeb.AdminIncidentLive.Form do
   end
 
   def handle_event("validate", %{"incident" => incident_params}, socket) do
-    changeset = Admin.change_incident(%Incident{}, incident_params)
+    changeset = Admin.change_incident(socket.assigns.incident, incident_params)
     socket = assign(socket, form: to_form(changeset, action: :validate))
     {:noreply, socket}
   end
