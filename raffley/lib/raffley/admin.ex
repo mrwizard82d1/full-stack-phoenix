@@ -1,5 +1,4 @@
 defmodule Raffley.Admin do
-  alias GenLSP.Structures.TypeHierarchyRegistrationOptions
   alias Raffley.Raffles.Raffle
   alias Raffley.Repo
 
@@ -35,5 +34,9 @@ defmodule Raffley.Admin do
   # is more useful than is apparent.
   def change_raffle(%Raffle{} = raffle, attrs \\ %{}) do
     Raffle.changeset(raffle, attrs)
+  end
+
+  def get_raffle!(id) do
+    Repo.get!(Raffle, id)
   end
 end
