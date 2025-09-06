@@ -70,7 +70,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
   end
 
   def handle_event("validate", %{"raffle" => raffle_params}, socket) do
-    changeset = Admin.change_raffle(%Raffle{}, raffle_params)
+    changeset = Admin.change_raffle(socket.assigns.raffle, raffle_params)
     socket = assign(socket, :form, to_form(changeset, action: :validate))
     {:noreply, socket}
   end
