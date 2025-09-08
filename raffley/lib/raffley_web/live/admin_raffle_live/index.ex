@@ -41,8 +41,28 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
             Edit
           </.link>
         </:action>
+        <:action :let={{_dom_id, raffle}}>
+          <.link phx-click="delete" phx-value-id={raffle.id} data-confirm="Are you sure?" }>
+            Delete
+          </.link>
+        </:action>
       </.table>
     </div>
     """
+  end
+
+  def handle_event("delete", %{"id" => id}, socket) do
+    raffle = Admin.get_raffle!(id)
+
+    # Delete the raffle from the database but...
+    {:ok, _} = Admin.delete_raffle(raffle)
+
+    # ... we must also delete it from the stream (used to render our page)
+    socket = stream_delete(socket, :raffles, raffle)
+
+    # To see what this accomplishes, let's inspect the socket
+    IO.inspect(socket, label: "After deleting raffle")
+
+    {:noreply, socket}
   end
 end
