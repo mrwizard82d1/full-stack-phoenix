@@ -58,11 +58,6 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
     {:ok, _} = Admin.delete_raffle(raffle)
 
     # ... we must also delete it from the stream (used to render our page)
-    socket = stream_delete(socket, :raffles, raffle)
-
-    # To see what this accomplishes, let's inspect the socket
-    IO.inspect(socket, label: "After deleting raffle")
-
-    {:noreply, socket}
+    {:noreply, stream_delete(socket, :raffles, raffle)}
   end
 end
