@@ -43,7 +43,7 @@ defmodule HeadsUpWeb.AdminIncidentLive.Index do
         </:action>
         <:action :let={{_dom_id, incident}}>
           <.link phx-click="delete" phx-value-id={incident.id} data-confirm="Are you sure?">
-            Delete
+            <.icon name="hero-trash" class="h-4 w-4" />
           </.link>
         </:action>
       </.table>
