@@ -76,10 +76,11 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
   end
 
   def handle_event("save", %{"raffle" => raffle_params}, socket) do
-    # Ignore the returned value.
+    save_raffle(socket, socket.assigns.live_action, raffle_params)
+  end
+
+  defp save_raffle(socket, :new, raffle_params) do
     case Admin.create_raffle(raffle_params) do
-      # Since `create_raffle/1` now returns a tuple, we pattern match
-      # on that returned tuple.
       {:ok, _raffle} ->
         socket =
           socket
@@ -90,6 +91,22 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         # Include "errors" in data assigned to `socket`
+        socket = assign(socket, :form, to_form(changeset))
+        {:noreply, socket}
+    end
+  end
+
+  defp save_raffle(socket, :edit, raffle_params) do
+    case Admin.update_raffle(socket.assigns.raffle, raffle_params) do
+      {:ok, _raffle} ->
+        socket =
+          socket
+          |> put_flash(:info, "Raffle updated successfully")
+          |> push_navigate(to: ~p"/admin/raffles")
+
+        {:noreply, socket}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
         socket = assign(socket, :form, to_form(changeset))
         {:noreply, socket}
     end
