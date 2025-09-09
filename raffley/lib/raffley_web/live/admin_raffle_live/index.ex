@@ -74,9 +74,8 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
           <.link
             phx-click={
               JS.push("delete", value: %{id: raffle.id})
-              |> JS.add_class("opacity-50", to: "##{dom_id}")
+              |> JS.hide(to: "##{dom_id}", transition: "fade-out")
             }
-            phx-disable-with="Deleting..."
             data-confirm="Are you sure?"
           >
             Delete
@@ -88,8 +87,6 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
   end
 
   def handle_event("delete", %{"id" => id}, socket) do
-    Process.sleep(3000)
-
     raffle = Admin.get_raffle!(id)
 
     # Delete the raffle from the database but...
