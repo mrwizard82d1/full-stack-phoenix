@@ -76,6 +76,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
               JS.push("delete", value: %{id: raffle.id})
               |> JS.add_class("opacity-50", to: "##{dom_id}")
             }
+            phx-disable-with="Deleting..."
             data-confirm="Are you sure?"
           >
             Delete
