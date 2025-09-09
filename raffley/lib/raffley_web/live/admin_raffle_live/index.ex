@@ -24,12 +24,20 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
       form is rendered; instead, Phoenix transforms the expression into
       a number of client side HTML / JavaScript fragments that toggle the
       visibility of the joke.
+
+      We previously used CSS classes to control the fade-in and fade-out
+      of the joke. This approach assumes that such CSS classe are available
+      to us.
+
+      The following approach uses a mechanism that is always available
+      to us: passing a tuple to control the transition.
       -->
       <.button phx-click={
         JS.toggle(
           to: "#joke",
-          in: "fade-in",
-          out: "fade-out"
+          in: {"ease-in-out duration-300", "opacity-0", "opacity-100"},
+          out: {"ease-in-out duration=300", "opacity-100", "opacity-0"},
+          time: 300
         )
       }>
         Toggle Joke
