@@ -16,7 +16,10 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
   def render(assigns) do
     ~H"""
     <div class="admin-index">
-      <.header>
+      <div id="joke" class="joke">
+        What's a tree's favorite drink?
+      </div>
+      <.header class="mt-6">
         {@page_title}
         <:actions>
           <.link class="button" navigate={~p"/admin/raffles/new"}>
