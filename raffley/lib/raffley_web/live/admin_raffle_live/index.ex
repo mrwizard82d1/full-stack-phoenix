@@ -87,6 +87,8 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
   end
 
   def handle_event("delete", %{"id" => id}, socket) do
+    Process.sleep(3000)
+
     raffle = Admin.get_raffle!(id)
 
     # Delete the raffle from the database but...
