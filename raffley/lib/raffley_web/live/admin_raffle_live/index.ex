@@ -25,7 +25,13 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
       a number of client side HTML / JavaScript fragments that toggle the
       visibility of the joke.
       -->
-      <.button phx-click={JS.toggle(to: "#joke")}>
+      <.button phx-click={
+        JS.toggle(
+          to: "#joke",
+          in: "fade-in",
+          out: "fade-out"
+        )
+      }>
         Toggle Joke
       </.button>
       <div id="joke" class="joke">
