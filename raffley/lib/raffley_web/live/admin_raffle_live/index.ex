@@ -16,6 +16,9 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
   def render(assigns) do
     ~H"""
     <div class="admin-index">
+      <.button phx-click={JS.toggle()}>
+        Toggle Joke
+      </.button>
       <div id="joke" class="joke">
         What's a tree's favorite drink?
       </div>
