@@ -71,13 +71,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
           </.link>
         </:action>
         <:action :let={{dom_id, raffle}}>
-          <.link
-            phx-click={
-              JS.push("delete", value: %{id: raffle.id})
-              |> JS.hide(to: "##{dom_id}", transition: "fade-out")
-            }
-            data-confirm="Are you sure?"
-          >
+          <.link phx-click={delete_and_hide(dom_id, raffle)} data-confirm="Are you sure?">
             Delete
           </.link>
         </:action>
@@ -94,5 +88,10 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
 
     # ... we must also delete it from the stream (used to render our page)
     {:noreply, stream_delete(socket, :raffles, raffle)}
+  end
+
+  def delete_and_hide(dom_id, raffle) do
+    JS.push("delete", value: %{id: raffle.id})
+    |> JS.hide(to: "##{dom_id}", transition: "fade-out")
   end
 end
