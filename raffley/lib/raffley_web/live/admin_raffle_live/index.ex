@@ -42,7 +42,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
       }>
         Toggle Joke
       </.button>
-      <div id="joke" class="joke">
+      <div id="joke" class="joke hidden">
         What's a tree's favorite drink?
       </div>
       <.header class="mt-6">
