@@ -16,7 +16,16 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
   def render(assigns) do
     ~H"""
     <div class="admin-index">
-      <.button phx-click={JS.toggle()}>
+      <!--
+      Remember, the expression, "#joke", refers to the element with the
+      id, "joke".
+
+      Additionally, the expression `JS.toggle` is **not** run when the
+      form is rendered; instead, Phoenix transforms the expression into
+      a number of client side HTML / JavaScript fragments that toggle the
+      visibility of the joke.
+      -->
+      <.button phx-click={JS.toggle(to: "#joke")}>
         Toggle Joke
       </.button>
       <div id="joke" class="joke">
