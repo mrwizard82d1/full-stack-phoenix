@@ -9,8 +9,10 @@ defmodule RaffleyWeb.CharityLive.Index do
     <.header>
       Listing Charities
       <:actions>
-        <.button phx-click={JS.navigate(~p"/charities/new")}>
-          New Charity
+        <.button phx-click={JS.dispatch("click", to: {:inner, "a"})}>
+          <.link navigate={~p"/charities/new"}>
+            New Charity
+          </.link>
         </.button>
       </:actions>
     </.header>
