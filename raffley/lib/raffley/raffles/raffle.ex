@@ -12,6 +12,11 @@ defmodule Raffley.Raffles.Raffle do
     field :ticket_price, :integer, default: 1
     field :image_path, :string, default: "/images/placeholder.jpg"
 
+    # One calls `belongs_to` in the entity that **has** the foreign key.
+    #
+    # This action creates two fields: `charity_id` and `charity`.
+    belongs_to :charity, Raffley.Charities.Charity
+
     timestamps(type: :utc_datetime)
   end
 

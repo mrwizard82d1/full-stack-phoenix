@@ -6,6 +6,12 @@ defmodule Raffley.Charities.Charity do
     field :name, :string
     field :slug, :string
 
+    # One calls `has_many` in the entity that **is the target of** the
+    # foreign key.
+    #
+    # This action creates a single field: `raffle`.
+    has_many :raffles, Raffley.Raffles.Raffle
+
     timestamps(type: :utc_datetime)
   end
 
