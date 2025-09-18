@@ -14,6 +14,7 @@ defmodule Raffley.Raffles do
     |> search_by(filter["q"])
     |> sort(filter["sort_by"])
     |> Repo.all()
+    |> Repo.preload(:charity)
   end
 
   defp with_status(query, status)
