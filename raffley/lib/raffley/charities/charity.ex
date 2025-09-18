@@ -1,5 +1,4 @@
 defmodule Raffley.Charities.Charity do
-  alias Hex.Solver.Constraints.Impl
   use Ecto.Schema
   import Ecto.Changeset
 
