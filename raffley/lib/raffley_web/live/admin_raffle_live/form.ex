@@ -3,9 +3,15 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
 
   alias Raffley.Admin
   alias Raffley.Raffles.Raffle
+  alias Raffley.Charities
 
   def mount(params, _session, socket) do
-    {:ok, apply_action(socket, socket.assigns.live_action, params)}
+    socket =
+      socket
+      |> assign(:charity_options, Charities.charity_names_and_ids())
+      |> apply_action(socket.assigns.live_action, params)
+
+    {:ok, socket}
   end
 
   defp apply_action(socket, :new, _params) do
@@ -56,6 +62,20 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
         prompt="Choose a status"
         options={[:upcoming, :open, :closed]}
       />
+      <!--
+      We want to display a list of charities from which a user can
+      select; however, when a user selects a name, we want to capture
+      the id of the charity. Consequently, the options must contain a
+      list of name, id pairs (tuples). We must dynamically generate this
+      list.
+      -->
+      <.input
+        field={@form[:charity_id]}
+        type="select"
+        label="Charity"
+        prompt="Choose a charity"
+        options={@charity_options}
+      />
       <.input field={@form[:image_path]} label="Image Path" />
 
       <:actions>
@@ -76,6 +96,7 @@ defmodule RaffleyWeb.AdminRaffleLive.Form do
   end
 
   def handle_event("save", %{"raffle" => raffle_params}, socket) do
+    IO.inspect(raffle_params, label: "Raffle Params")
     save_raffle(socket, socket.assigns.live_action, raffle_params)
   end
 
