@@ -48,6 +48,7 @@ defmodule Raffley.Raffles do
 
   def get_raffle!(id) do
     Repo.get!(Raffle, id)
+    |> Repo.preload(:charity)
   end
 
   def featured_raffles(raffle) do
