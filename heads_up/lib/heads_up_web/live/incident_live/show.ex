@@ -34,7 +34,10 @@ defmodule HeadsUpWeb.IncidentLive.Show do
         <section>
           <.badge status={@incident.status} />
           <header>
-            <h2>{@incident.name}</h2>
+            <div>
+              <h2>{@incident.name}</h2>
+              <h3>{@incident.category.name}</h3>
+            </div>
             <div class="priority">
               {@incident.priority}
             </div>
@@ -74,11 +77,15 @@ defmodule HeadsUpWeb.IncidentLive.Show do
             Oh, a wise guy, huh? Woop-oop-oops! {reason}
           </div>
         </:failed>
+        <!--
+        The following block is in the "default slot" of the `async_result`
+        component. As a consequence, it is only rendered when the result
+        is available.
+        -->
         <ul class="incidents">
           <li :for={incident <- result}>
             <.link navigate={~p"/incidents/#{incident}"}>
-              <img src={incident.image_path} />
-              {incident.name}
+              <img src={incident.image_path} /> {incident.name}
             </.link>
           </li>
         </ul>
