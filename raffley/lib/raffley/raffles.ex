@@ -24,9 +24,16 @@ defmodule Raffley.Raffles do
 
   # Charity filter (slug) specified
   defp with_charity(query, slug) do
+    # from r in query,
+    #   join: c in Charity,
+    #   on: r.charity_id == c.id,
+    #   where: c.slug == ^slug
+
+    # This mechanism works **if** you have associations between raffles
+    # and charities **already** set up. Otherwise, the previous
+    # implementation works just fine.
     from r in query,
-      join: c in Charity,
-      on: r.charity_id == c.id,
+      join: c in assoc(r, :charity),
       where: c.slug == ^slug
   end
 
