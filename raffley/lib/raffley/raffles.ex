@@ -1,4 +1,5 @@
 defmodule Raffley.Raffles do
+  alias Raffley.Charities.Charity
   alias Raffley.Repo
   alias Raffley.Raffles.Raffle
 
@@ -12,9 +13,21 @@ defmodule Raffley.Raffles do
     Raffle
     |> with_status(filter["status"])
     |> search_by(filter["q"])
+    |> with_charity(filter["charity"])
     |> sort(filter["sort_by"])
     |> preload(:charity)
     |> Repo.all()
+  end
+
+  # No charity filter specified
+  defp with_charity(query, slug) when slug in ["", nil], do: query
+
+  # Charity filter (slug) specified
+  defp with_charity(query, slug) do
+    from r in query,
+      join: c in Charity,
+      on: r.charity_id == c.id,
+      where: c.slug == ^slug
   end
 
   defp with_status(query, status)

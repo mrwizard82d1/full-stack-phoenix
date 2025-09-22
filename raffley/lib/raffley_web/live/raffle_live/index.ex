@@ -1,6 +1,7 @@
 defmodule RaffleyWeb.RaffleLive.Index do
   use RaffleyWeb, :live_view
 
+  alias Raffley.Charities
   alias Raffley.Raffles
   import RaffleyWeb.CustomComponents
 
@@ -15,11 +16,8 @@ defmodule RaffleyWeb.RaffleLive.Index do
   def mount(_params, _session, socket) do
     # IO.inspect(socket.assigns.streams.raffles, label: "MOUNT")
 
-    # socket =
-    #   attach_hook(socket, :log_stream, :after_render, fn socket ->
-    #     IO.inspect(socket.assigns.streams.raffles, label: "AFTER RENDER")
-    #     socket
-    #   end)
+    socket =
+      assign(socket, :charity_options, Charities.charity_names_and_slugs())
 
     {:ok, socket}
   end
@@ -53,7 +51,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
         </:details>
       </.banner>
 
-      <.filter_form form={@form} />
+      <.filter_form form={@form} charity_options={@charity_options} />
 
       <div class="raffles" id="raffles" phx-update="stream">
         <.raffle_card :for={{dom_id, raffle} <- @streams.raffles} raffle={raffle} id={dom_id} />
@@ -73,6 +71,8 @@ defmodule RaffleyWeb.RaffleLive.Index do
         prompt="Status"
         options={[:upcoming, :open, :closed]}
       />
+
+      <.input type="select" field={@form[:charity]} prompt="Charity" options={@charity_options} />
 
       <.input
         type="select"
@@ -119,7 +119,7 @@ defmodule RaffleyWeb.RaffleLive.Index do
   def handle_event("filter", params, socket) do
     params =
       params
-      |> Map.take(~w(q status sort_by))
+      |> Map.take(~w(q status sort_by charity))
       |> Map.reject(fn {_, v} -> v == "" end)
 
     # Calling `push_patch`
