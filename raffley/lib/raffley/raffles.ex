@@ -1,5 +1,5 @@
 defmodule Raffley.Raffles do
-  alias Raffley.Charities.Charity
+  # alias Raffley.Charities.Charity
   alias Raffley.Repo
   alias Raffley.Raffles.Raffle
 
@@ -60,6 +60,12 @@ defmodule Raffley.Raffles do
 
   defp sort(query, "ticket_price_asc") do
     order_by(query, asc: :ticket_price)
+  end
+
+  defp sort(query, "charity") do
+    from r in query,
+      join: c in assoc(r, :charity),
+      order_by: c.name
   end
 
   defp sort(query, _) do
