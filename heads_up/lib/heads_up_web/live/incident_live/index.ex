@@ -75,7 +75,8 @@ defmodule HeadsUpWeb.IncidentLive.Index do
         options={[
           Name: :name,
           "Priority High-to-Low": :priority_desc,
-          "Priority Low-to-High": :priority_asc
+          "Priority Low-to-High": :priority_asc,
+          Category: "category"
         ]}
       />
 
