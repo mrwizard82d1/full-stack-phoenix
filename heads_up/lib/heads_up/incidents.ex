@@ -25,9 +25,15 @@ defmodule HeadsUp.Incidents do
   # (cf. `with_status/2`) and the keyword syntax in another
   # (`with_charity/2`).
   defp with_charity(query, slug) do
+    # from i in query,
+    #   join: c in Category,
+    #   on: i.category_id == c.id,
+    #   where: c.slug == ^slug
+
+    # Can **only** be used when the association is defined in the code;
+    # otherwise, use the form above.
     from i in query,
-      join: c in Category,
-      on: i.category_id == c.id,
+      join: c in assoc(i, :category),
       where: c.slug == ^slug
   end
 
