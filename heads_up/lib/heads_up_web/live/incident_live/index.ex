@@ -1,17 +1,15 @@
 defmodule HeadsUpWeb.IncidentLive.Index do
   use HeadsUpWeb, :live_view
 
+  alias HeadsUp.Categories
   alias HeadsUp.Incidents
   alias HeadsUpWeb.CustomComponents
 
   def mount(_params, _session, socket) do
     # IO.inspect(socket.assigns.streams.incidents, label: "MOUNT")
 
-    # socket =
-    #   attach_hook(socket, :log_stream, :after_render, fn socket ->
-    #     IO.inspect(socket.assigns.streams.incidents, label: "AFTER RENDER")
-    #     socket
-    #   end)
+    socket =
+      assign(socket, :category_options, Categories.category_names_and_slugs())
 
     {:ok, socket}
   end
@@ -40,7 +38,7 @@ defmodule HeadsUpWeb.IncidentLive.Index do
         </CustomComponents.headline>
       </div>
 
-      <.filter_form form={@form} />
+      <.filter_form form={@form} category_options={@category_options} />
 
       <div class="incidents" id="incidents" phx-update="stream">
         <div id="empty" class="no-results only:block hidden">
@@ -67,6 +65,8 @@ defmodule HeadsUpWeb.IncidentLive.Index do
         prompt="Status"
         options={[:pending, :canceled, :resolved]}
       />
+
+      <.input type="select" field={@form[:category]} prompt="Category" options={@category_options} />
 
       <.input
         type="select"
@@ -113,7 +113,7 @@ defmodule HeadsUpWeb.IncidentLive.Index do
   def handle_event("filter", params, socket) do
     params =
       params
-      |> Map.take(~w(q status sort_by))
+      |> Map.take(~w(q status sort_by category))
       |> Map.reject(fn {_, v} -> v == "" end)
 
     # Calling `push_navigate`

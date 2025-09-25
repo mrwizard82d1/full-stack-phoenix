@@ -1,6 +1,7 @@
 defmodule HeadsUp.Incidents do
-  alias HeadsUp.Repo
+  alias HeadsUp.Categories.Category
   alias HeadsUp.Incidents.Incident
+  alias HeadsUp.Repo
 
   import Ecto.Query
 
@@ -12,9 +13,22 @@ defmodule HeadsUp.Incidents do
     Incident
     |> with_status(filter["status"])
     |> search_by(filter["q"])
+    |> with_charity(filter["category"])
     |> sort(filter["sort_by"])
     |> preload(:category)
     |> Repo.all()
+  end
+
+  defp with_charity(query, slug) when slug in ["", nil], do: query
+
+  # Remember it is not a problem to use the macro syntax in one function
+  # (cf. `with_status/2`) and the keyword syntax in another
+  # (`with_charity/2`).
+  defp with_charity(query, slug) do
+    from i in query,
+      join: c in Category,
+      on: i.category_id == c.id,
+      where: c.slug == ^slug
   end
 
   defp with_status(query, status) when status in ~w(pending canceled resolved) do
