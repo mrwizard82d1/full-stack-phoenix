@@ -61,6 +61,12 @@ defmodule HeadsUp.Incidents do
     order_by(query, asc: :priority)
   end
 
+  defp sort(query, "category") do
+    from i in query,
+      join: c in assoc(i, :category),
+      order_by: c.name
+  end
+
   defp sort(query, _) do
     order_by(query, :id)
   end
