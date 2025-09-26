@@ -55,9 +55,15 @@ defmodule RaffleyWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", RaffleyWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", RaffleyWeb do
+    pipe_through :api
+
+    # We could define the controller in the `controller` namespace (using
+    # simply `RaffleController`); however, let's actually put these
+    # controllers in a specific namespace: `Api`. (But no
+    # implementation yet.) Here is one way.
+    get "/raffles", Api.RaffleController, :index
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:raffley, :dev_routes) do
