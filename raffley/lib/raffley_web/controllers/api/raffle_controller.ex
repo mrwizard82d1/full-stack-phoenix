@@ -19,4 +19,9 @@ defmodule RaffleyWeb.Api.RaffleController do
     # format, `JSON` (all uppercase).
     render(conn, :index, raffles: raffles)
   end
+
+  def show(conn, %{"id" => id}) do
+    raffle = Admin.get_raffle!(id)
+    render(conn, :show, raffle: raffle)
+  end
 end

@@ -63,6 +63,7 @@ defmodule RaffleyWeb.Router do
     pipe_through :api
 
     get "/raffles", RaffleController, :index
+    get "/raffles/:id", RaffleController, :show
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
