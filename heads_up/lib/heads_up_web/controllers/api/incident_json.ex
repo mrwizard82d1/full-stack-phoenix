@@ -3,6 +3,10 @@ defmodule HeadsUpWeb.Api.IncidentJSON do
     %{incidents: for(incident <- incidents, do: data(incident))}
   end
 
+  def show(%{incident: incident}) do
+    %{incident: data(incident)}
+  end
+
   defp data(incident) do
     %{
       id: incident.id,

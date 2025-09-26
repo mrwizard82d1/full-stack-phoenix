@@ -7,4 +7,9 @@ defmodule HeadsUpWeb.Api.IncidentController do
     incidents = Admin.list_incidents()
     render(conn, "index.json", incidents: incidents)
   end
+
+  def show(conn, %{"id" => id}) do
+    incident = Admin.get_incident!(id)
+    render(conn, "show.json", incident: incident)
+  end
 end
