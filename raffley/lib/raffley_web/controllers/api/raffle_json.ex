@@ -13,6 +13,18 @@ defmodule RaffleyWeb.Api.RaffleJSON do
     %{raffle: data(raffle)}
   end
 
+  def error(%{changeset: changeset}) do
+    # The value, `changeset.errors`, is **not** encodable as JSON; however,
+    # it can be converted to JSON.
+    errors =
+      Ecto.Changeset.traverse_errors(
+        changeset,
+        fn {msg, _opts} -> msg end
+      )
+
+    %{errors: errors}
+  end
+
   defp data(raffle) do
     %{
       id: raffle.id,
