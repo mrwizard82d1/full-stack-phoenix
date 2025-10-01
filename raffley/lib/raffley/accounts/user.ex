@@ -50,6 +50,7 @@ defmodule Raffley.Accounts.User do
     |> validate_length(:username, min: 2, max: 25)
     # Although we could validate the format, the instructors have chosen
     # **not to**.
+    |> unsafe_validate_unique(:username, Raffley.Repo)
     |> unique_constraint(:username)
   end
 
