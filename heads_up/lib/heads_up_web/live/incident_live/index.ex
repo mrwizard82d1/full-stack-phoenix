@@ -91,7 +91,7 @@ defmodule HeadsUpWeb.IncidentLive.Index do
   attr :id, :string, required: true
 
   def incident_card(assigns) do
-    IO.inspect(assigns, label: "incident_card assigns")
+    # IO.inspect(assigns, label: "incident_card assigns")
 
     ~H"""
     <.link navigate={~p"/incidents/#{@incident}"} id={@id}>
