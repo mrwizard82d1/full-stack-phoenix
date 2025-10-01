@@ -1,3 +1,4 @@
+alias Raffley.Accounts.User
 alias Raffley.Admin
 alias Raffley.Charities.Charity
 alias Raffley.Raffles
