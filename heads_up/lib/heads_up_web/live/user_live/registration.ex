@@ -32,6 +32,7 @@ defmodule HeadsUpWeb.UserLive.Registration do
         </.error>
 
         <.input field={@form[:email]} type="email" label="Email" autocomplete="username" required />
+        <.input field={@form[:username]} type="text" label="Username" required />
         <.input
           field={@form[:password]}
           type="password"
