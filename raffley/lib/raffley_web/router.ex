@@ -11,6 +11,7 @@ defmodule RaffleyWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+    plug :require_authenticated_user
     plug :spy
   end
 
@@ -26,7 +27,7 @@ defmodule RaffleyWeb.Router do
     conn = assign(conn, :greeting, greeting)
 
     # Avoid "polluting" the server log
-    # IO.inspect(conn)
+    IO.inspect(conn)
 
     conn
   end
