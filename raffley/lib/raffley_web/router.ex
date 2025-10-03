@@ -11,7 +11,6 @@ defmodule RaffleyWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
-    plug :require_authenticated_user
     plug :spy
   end
 
@@ -45,6 +44,19 @@ defmodule RaffleyWeb.Router do
     live "/estimator", EstimatorLive
     live "/raffles", RaffleLive.Index
     live "/raffles/:id", RaffleLive.Show
+  end
+
+  scope "/", RaffleyWeb do
+    # The following command causes all navigation to either the
+    #
+    # - Admin LiveView routes
+    # - Charity LiveView routes
+    #
+    # to pass through the `:browser` pipeline (see above) **first** and
+    # to then pass through the `:require_authenticated_user` function.
+    pipe_through [:browser, :require_authenticated_user]
+
+    # All these routes **require** authentication
 
     # Admin LiveView route
     live "/admin/raffles", AdminRaffleLive.Index
