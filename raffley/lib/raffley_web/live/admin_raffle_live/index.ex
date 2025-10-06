@@ -4,8 +4,6 @@ defmodule RaffleyWeb.AdminRaffleLive.Index do
   alias Raffley.Admin
   import RaffleyWeb.CustomComponents
 
-  on_mount {RaffleyWeb.UserAuth, :ensure_authenticated}
-
   # Run authorization checks
   def mount(_params, _session, socket) do
     socket =

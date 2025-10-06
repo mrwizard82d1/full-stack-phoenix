@@ -57,17 +57,18 @@ defmodule RaffleyWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     # All these routes **require** authentication
+    live_session :admin, on_mount: {RaffleyWeb.UserAuth, :ensure_authenticated} do
+      # Admin LiveView route
+      live "/admin/raffles", AdminRaffleLive.Index
+      live "/admin/raffles/new", AdminRaffleLive.Form, :new
+      live "/admin/raffles/:id/edit", AdminRaffleLive.Form, :edit
 
-    # Admin LiveView route
-    live "/admin/raffles", AdminRaffleLive.Index
-    live "/admin/raffles/new", AdminRaffleLive.Form, :new
-    live "/admin/raffles/:id/edit", AdminRaffleLive.Form, :edit
-
-    # Charity LiveView routes
-    live "/charities", CharityLive.Index, :index
-    live "/charities/new", CharityLive.Form, :new
-    live "/charities/:id", CharityLive.Show, :show
-    live "/charities/:id/edit", CharityLive.Form, :edit
+      # Charity LiveView routes
+      live "/charities", CharityLive.Index, :index
+      live "/charities/new", CharityLive.Form, :new
+      live "/charities/:id", CharityLive.Show, :show
+      live "/charities/:id/edit", CharityLive.Form, :edit
+    end
   end
 
   # Other scopes may use custom stacks.
