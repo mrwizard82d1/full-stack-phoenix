@@ -54,10 +54,14 @@ defmodule RaffleyWeb.Router do
     #
     # to pass through the `:browser` pipeline (see above) **first** and
     # to then pass through the `:require_authenticated_user` function.
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through [:browser, :require_authenticated_user, :require_admin]
 
     # All these routes **require** authentication
-    live_session :admin, on_mount: {RaffleyWeb.UserAuth, :ensure_authenticated} do
+    live_session :admin,
+      on_mount: [
+        {RaffleyWeb.UserAuth, :ensure_authenticated},
+        {RaffleyWeb.UserAuth, :ensure_admin}
+      ] do
       # Admin LiveView route
       live "/admin/raffles", AdminRaffleLive.Index
       live "/admin/raffles/new", AdminRaffleLive.Form, :new
