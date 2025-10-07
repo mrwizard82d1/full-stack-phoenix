@@ -169,7 +169,7 @@ defmodule RaffleyWeb.UserAuth do
     # `on_mount(:ensure_authenticated, ...)` call
     # socket = mount_current_user(socket, session)
 
-    if socket.assigns.current_user.username == "lajones13f9" do
+    if socket.assigns.current_user.is_admin do
       {:cont, socket}
     else
       socket =
@@ -239,7 +239,7 @@ defmodule RaffleyWeb.UserAuth do
   def require_admin(conn, _opts) do
     # Using dot notation to navigate the `conn`(ection) means that if
     # the `current_user` is null, we will raise an exception.
-    if conn.assigns.current_user.username == "lajones13f9" do
+    if conn.assigns.current_user.is_admin do
       conn
     else
       conn
