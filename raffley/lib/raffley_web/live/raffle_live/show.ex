@@ -4,6 +4,10 @@ defmodule RaffleyWeb.RaffleLive.Show do
   alias Raffley.Raffles
   import RaffleyWeb.CustomComponents
 
+  # As an alternative, one could call `on_mount/1` in the router with a
+  # live session.
+  on_mount {RaffleyWeb.UserAuth, :mount_current_user}
+
   def mount(_params, _session, socket) do
     socket = assign(socket, :form, to_form(%{}))
 
@@ -54,6 +58,10 @@ defmodule RaffleyWeb.RaffleLive.Show do
               <.input field={@form[:comment]} placeholder="Comment..." autofocus />
               <.button>Get A Ticket</.button>
             </.form>
+          <% else %>
+            <.link href={~p"/users/log-in"} class="button">
+              Log In To Get A Ticket
+            </.link>
           <% end %>
         </div>
         <div class="right">
