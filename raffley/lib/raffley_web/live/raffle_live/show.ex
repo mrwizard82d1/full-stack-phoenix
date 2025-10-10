@@ -49,10 +49,12 @@ defmodule RaffleyWeb.RaffleLive.Show do
       </div>
       <div class="activity">
         <div class="left">
-          <.form for={@form} id="ticket-form">
-            <.input field={@form[:comment]} placeholder="Comment..." autofocus />
-            <.button>Get A Ticket</.button>
-          </.form>
+          <%= if @current_user do %>
+            <.form for={@form} id="ticket-form">
+              <.input field={@form[:comment]} placeholder="Comment..." autofocus />
+              <.button>Get A Ticket</.button>
+            </.form>
+          <% end %>
         </div>
         <div class="right">
           <.featured_raffles raffles={@featured_raffles} />
