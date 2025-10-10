@@ -53,16 +53,18 @@ defmodule RaffleyWeb.RaffleLive.Show do
       </div>
       <div class="activity">
         <div class="left">
-          <%= if @current_user do %>
-            <.form for={@form} id="ticket-form">
-              <.input field={@form[:comment]} placeholder="Comment..." autofocus />
-              <.button>Get A Ticket</.button>
-            </.form>
-          <% else %>
-            <.link href={~p"/users/log-in"} class="button">
-              Log In To Get A Ticket
-            </.link>
-          <% end %>
+          <div :if={@raffle.status == :open}>
+            <%= if @current_user do %>
+              <.form for={@form} id="ticket-form">
+                <.input field={@form[:comment]} placeholder="Comment..." autofocus />
+                <.button>Get A Ticket</.button>
+              </.form>
+            <% else %>
+              <.link href={~p"/users/log-in"} class="button">
+                Log In To Get A Ticket
+              </.link>
+            <% end %>
+          </div>
         </div>
         <div class="right">
           <.featured_raffles raffles={@featured_raffles} />
