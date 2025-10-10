@@ -5,6 +5,8 @@ defmodule RaffleyWeb.RaffleLive.Show do
   import RaffleyWeb.CustomComponents
 
   def mount(_params, _session, socket) do
+    socket = assign(socket, :form, to_form(%{}))
+
     {:ok, socket}
   end
 
@@ -46,7 +48,12 @@ defmodule RaffleyWeb.RaffleLive.Show do
         </section>
       </div>
       <div class="activity">
-        <div class="left"></div>
+        <div class="left">
+          <.form for={@form} id="ticket-form">
+            <.input field={@form[:comment]} placeholder="Comment..." autofocus />
+            <.button>Get A Ticket</.button>
+          </.form>
+        </div>
         <div class="right">
           <.featured_raffles raffles={@featured_raffles} />
         </div>
