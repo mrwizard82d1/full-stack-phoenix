@@ -17,6 +17,9 @@ defmodule Raffley.Raffles.Raffle do
     # This action creates two fields: `charity_id` and `charity`.
     belongs_to :charity, Raffley.Charities.Charity
 
+    # We also implement the many-to-many constraint between raffles and tickets.
+    has_many(:tickets, Raffley.Tickets.Ticket)
+
     timestamps(type: :utc_datetime)
   end
 

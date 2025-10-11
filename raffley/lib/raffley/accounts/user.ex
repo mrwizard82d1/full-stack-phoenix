@@ -11,6 +11,12 @@ defmodule Raffley.Accounts.User do
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
 
+    # We also implement the many-to-many constraint between users and tickets.
+    #
+    # Although we have no plans to use this particular association, we
+    # leave it in for reference.
+    has_many(:tickets, Raffley.Tickets.Ticket)
+
     timestamps(type: :utc_datetime)
   end
 
