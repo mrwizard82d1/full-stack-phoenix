@@ -7,7 +7,7 @@ defmodule HeadsUp.Responses.Response do
     field :note, :string
 
     belongs_to(:incident, HeadsUp.Incidents.Incident)
-    belongs_to(:user, HeadsUp.Users.User)
+    belongs_to(:user, HeadsUp.Accounts.User)
 
     timestamps(type: :utc_datetime)
   end
