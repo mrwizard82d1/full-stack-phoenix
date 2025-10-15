@@ -153,10 +153,17 @@ defmodule RaffleyWeb.RaffleLive.Show do
     %{raffle: raffle, current_user: user} = socket.assigns
 
     case Tickets.create_ticket(raffle, user, ticket_params) do
-      {:ok, _ticket} ->
+      {:ok, ticket} ->
         changeset = Tickets.change_ticket(%Ticket{})
 
-        socket = assign(socket, :form, to_form(changeset))
+        IO.inspect(socket.assigns.streams.tickets)
+
+        socket =
+          socket
+          |> assign(:form, to_form(changeset))
+          |> stream_insert(:tickets, ticket, at: 0)
+
+        IO.inspect(socket.assigns.streams.tickets)
 
         {:noreply, socket}
 
