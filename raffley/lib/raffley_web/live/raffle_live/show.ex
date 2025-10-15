@@ -21,9 +21,12 @@ defmodule RaffleyWeb.RaffleLive.Show do
   def handle_params(%{"id" => id}, _uri, socket) do
     raffle = Raffles.get_raffle!(id)
 
+    tickets = Raffles.list_tickets(raffle)
+
     socket =
       socket
       |> assign(:raffle, raffle)
+      |> stream(:tickets, tickets)
       |> assign(:page_title, raffle.prize)
       # Simulate that an error occurs when fetching featured raffles.
       |> assign_async(:featured_raffles, fn ->
@@ -69,6 +72,9 @@ defmodule RaffleyWeb.RaffleLive.Show do
               </.link>
             <% end %>
           </div>
+          <div id="tickets" phx-update="stream">
+            <.ticket :for={{dom_id, ticket} <- @streams.tickets} ticket={ticket} id={dom_id} />
+          </div>
         </div>
         <div class="right">
           <.featured_raffles raffles={@featured_raffles} />
@@ -107,6 +113,31 @@ defmodule RaffleyWeb.RaffleLive.Show do
         </ul>
       </.async_result>
     </section>
+    """
+  end
+
+  attr :id, :string, required: true
+  attr :ticket, Ticket, required: true
+
+  def ticket(assigns) do
+    ~H"""
+    <div class="ticket" id={@id}>
+      <span class="timeline"></span>
+      <section>
+        <div class="price-paid">
+          ${@ticket.price}
+        </div>
+        <div>
+          <span class="username">
+            {@ticket.user.username}
+          </span>
+          bought a ticket
+          <blockquote>
+            {@ticket.comment}
+          </blockquote>
+        </div>
+      </section>
+    </div>
     """
   end
 
