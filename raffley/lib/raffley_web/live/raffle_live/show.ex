@@ -27,6 +27,8 @@ defmodule RaffleyWeb.RaffleLive.Show do
       socket
       |> assign(:raffle, raffle)
       |> stream(:tickets, tickets)
+      |> assign(:ticket_count, Enum.count(tickets))
+      |> assign(:ticket_sum, Enum.sum_by(tickets, fn t -> t.price end))
       |> assign(:page_title, raffle.prize)
       # Simulate that an error occurs when fetching featured raffles.
       |> assign_async(:featured_raffles, fn ->
@@ -52,6 +54,9 @@ defmodule RaffleyWeb.RaffleLive.Show do
           </header>
           <div class="price">
             ${@raffle.ticket_price} / ticket
+          </div>
+          <div class="totals">
+            {@ticket_count} Tickets Sold &bull; ${@ticket_sum} Raised
           </div>
           <div class="description">
             {@raffle.description}
