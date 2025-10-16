@@ -4,6 +4,7 @@ alias HeadsUp.Categories.Category
 alias HeadsUp.Incidents
 alias HeadsUp.Incidents.Incident
 alias HeadsUp.Repo
+alias HeadsUp.Responses.Response
 
 # Easily query our databasel
 import Ecto.Query
