@@ -80,12 +80,12 @@ defmodule HeadsUp.Incidents do
 
   def get_incident!(id) do
     Repo.get!(Incident, id)
-    |> Repo.preload(:category)
+    |> Repo.preload([:category, heroic_response: :user])
   end
 
   def urgent_incidents(incident) do
     # Simulate a slow query.
-    Process.sleep(2000)
+    # Process.sleep(2000)
 
     Incident
     |> where(status: :pending)
