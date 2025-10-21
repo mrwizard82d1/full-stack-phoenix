@@ -180,7 +180,7 @@ defmodule HeadsUpWeb.IncidentLive.Show do
     %{incident: incident, current_user: user} = socket.assigns
 
     case Responses.create_response(incident, user, response_params) do
-      {:ok, response} ->
+      {:ok, _response} ->
         changeset = Responses.change_response(%Response{})
 
         socket =
@@ -203,5 +203,9 @@ defmodule HeadsUpWeb.IncidentLive.Show do
       |> update(:response_count, &(&1 + 1))
 
     {:noreply, socket}
+  end
+
+  def handle_info({:incident_updated, incident}, socket) do
+    {:noreply, assign(socket, :incident, incident)}
   end
 end
