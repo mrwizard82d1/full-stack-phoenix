@@ -47,7 +47,7 @@ defmodule Raffley.Admin do
     |> Repo.update()
     |> case do
       {:ok, raffle} ->
-        raffle = Repo.preload(raffle, :charity)
+        raffle = Repo.preload(raffle, [:charity, :winning_ticket])
         Raffles.broadcast(raffle.id, {:raffle_updated, raffle})
         {:ok, raffle}
 
