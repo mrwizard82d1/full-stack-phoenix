@@ -5,16 +5,13 @@ defmodule HeadsUp.Incidents.Incident do
   schema "incidents" do
     field :name, :string
     field :priority, :integer, default: 1
-
-    field :status, Ecto.Enum,
-      values: [:pending, :resolved, :canceled],
-      default: :pending
-
+    field :status, Ecto.Enum, values: [:pending, :resolved, :canceled], default: :pending
     field :description, :string
     field :image_path, :string, default: "/images/placeholder.jpg"
 
     belongs_to :category, HeadsUp.Categories.Category
     has_many :responses, HeadsUp.Responses.Response
+    belongs_to :heroic_response, HeadsUp.Responses.Response
 
     timestamps(type: :utc_datetime)
   end
@@ -22,13 +19,19 @@ defmodule HeadsUp.Incidents.Incident do
   @doc false
   def changeset(incident, attrs) do
     incident
-    |> cast(attrs, [:name, :description, :priority, :status, :image_path])
-    |> validate_required([:name, :description, :priority, :status, :image_path])
+    |> cast(attrs, [
+      :name,
+      :description,
+      :priority,
+      :status,
+      :image_path,
+      :category_id,
+      :heroic_response_id
+    ])
+    |> validate_required([:name, :description, :priority, :status, :image_path, :category_id])
     # Additional validations
     |> validate_length(:description, min: 10)
-    |> validate_number(:priority,
-      greater_than_or_equal_to: 1,
-      less_than_or_equal_to: 3
-    )
+    |> validate_inclusion(:priority, 1..3)
+    |> assoc_constraint(:category)
   end
 end
