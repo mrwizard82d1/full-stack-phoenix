@@ -56,6 +56,24 @@ defmodule Raffley.Admin do
     end
   end
 
+  def draw_winner(%Raffle{status: :closed} = raffle) do
+    raffle = Repo.preload(raffle, :tickets)
+
+    case raffle.tickets do
+      [] ->
+        {:error, "No tickets to draw!"}
+
+      tickets ->
+        winner = Enum.random(tickets)
+
+        {:ok, _raffle} = update_raffle(raffle, %{winning_ticket_id: winner.id})
+    end
+  end
+
+  def draw_winner(%Raffle{}) do
+    {:error, "Raffle must be closed to draw a winner!"}
+  end
+
   def delete_raffle(%Raffle{} = raffle) do
     Repo.delete(raffle)
   end

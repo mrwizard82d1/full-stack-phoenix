@@ -20,13 +20,24 @@ defmodule Raffley.Raffles.Raffle do
     # We also implement the many-to-many constraint between raffles and tickets.
     has_many(:tickets, Raffley.Tickets.Ticket)
 
+    # A winning ticket must be a `Ticket` instance.
+    belongs_to :winning_ticket, Raffley.Tickets.Ticket
+
     timestamps(type: :utc_datetime)
   end
 
   @doc false
   def changeset(raffle, attrs) do
     raffle
-    |> cast(attrs, [:prize, :description, :ticket_price, :status, :image_path, :charity_id])
+    |> cast(attrs, [
+      :prize,
+      :description,
+      :ticket_price,
+      :status,
+      :image_path,
+      :charity_id,
+      :winning_ticket_id
+    ])
     |> validate_required([:prize, :description, :ticket_price, :status, :image_path, :charity_id])
     # Phoenix generated these validations for us. Let's add some custom ones.
     |> validate_length(:description, min: 10)
