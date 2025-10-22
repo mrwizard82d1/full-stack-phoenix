@@ -24,20 +24,14 @@ defmodule HeadsUpWeb.IncidentLive.Show do
       Incidents.subscribe(id)
 
       if current_user do
-        {:ok, _} =
-          Presence.track(self(), topic(id), current_user.username, %{
-            online_at: System.system_time(:second)
-          })
+        Presence.track_user(id, current_user)
 
-        Phoenix.PubSub.subscribe(HeadsUp.PubSub, "updates:" <> topic(id))
+        Presence.subscribe(id)
       end
     end
 
     presences =
-      Presence.list(topic(id))
-      |> Enum.map(fn {username, %{metas: metas}} ->
-        %{id: username, metas: metas}
-      end)
+      Presence.list_users(id)
 
     incident = Incidents.get_incident!(id)
 
@@ -59,10 +53,6 @@ defmodule HeadsUpWeb.IncidentLive.Show do
       end)
 
     {:noreply, socket}
-  end
-
-  defp topic(incident_id) do
-    "incident_onlookers:#{incident_id}"
   end
 
   def render(assigns) do
