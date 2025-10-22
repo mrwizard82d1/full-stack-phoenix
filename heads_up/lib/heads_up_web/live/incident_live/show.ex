@@ -4,7 +4,7 @@ defmodule HeadsUpWeb.IncidentLive.Show do
   alias HeadsUp.Incidents
   alias HeadsUp.Responses
   alias HeadsUp.Responses.Response
-
+  alias HeadsUpWeb.Presence
   import HeadsUpWeb.CustomComponents
 
   on_mount {HeadsUpWeb.UserAuth, :mount_current_user}
@@ -18,9 +18,24 @@ defmodule HeadsUpWeb.IncidentLive.Show do
   end
 
   def handle_params(%{"id" => id}, _uri, socket) do
+    %{current_user: current_user} = socket.assigns
+
     if connected?(socket) do
       Incidents.subscribe(id)
+
+      if current_user do
+        {:ok, _} =
+          Presence.track(self(), topic(id), current_user.username, %{
+            online_at: System.system_time(:second)
+          })
+      end
     end
+
+    presences =
+      Presence.list(topic(id))
+      |> Enum.map(fn {username, %{metas: metas}} ->
+        %{id: username, metas: metas}
+      end)
 
     incident = Incidents.get_incident!(id)
 
@@ -32,6 +47,7 @@ defmodule HeadsUpWeb.IncidentLive.Show do
       socket
       |> assign(:incident, incident)
       |> stream(:responses, responses)
+      |> stream(:presences, presences)
       |> assign(:response_count, Enum.count(responses))
       |> assign(:page_title, incident.name)
       # |> assign(:urgent_incidents, Incidents.urgent_incidents(incident))
@@ -41,6 +57,10 @@ defmodule HeadsUpWeb.IncidentLive.Show do
       end)
 
     {:noreply, socket}
+  end
+
+  defp topic(incident_id) do
+    "incident_onlookers:#{incident_id}"
   end
 
   def render(assigns) do
@@ -106,12 +126,28 @@ defmodule HeadsUpWeb.IncidentLive.Show do
         </div>
         <div class="right">
           <.urgent_incidents incidents={@urgent_incidents} />
+
+          <.onlookers :if={@current_user} presences={@streams.presences} />
         </div>
       </div>
       <.back navigate={~p"/incidents"}>
         All Incidents
       </.back>
     </div>
+    """
+  end
+
+  def onlookers(assigns) do
+    ~H"""
+    <section>
+      <h4>Onlookers</h4>
+      <ul class="presences" id="onlookers" phx-update="stream">
+        <li :for={{dom_id, %{id: username, metas: metas}} <- @presences} id={dom_id}>
+          <.icon name="hero-user-circle-solid" class="w-5 h-5" />
+          {username} ({length(metas)})
+        </li>
+      </ul>
+    </section>
     """
   end
 
