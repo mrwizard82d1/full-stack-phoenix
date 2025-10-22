@@ -31,6 +31,8 @@ defmodule RaffleyWeb.RaffleLive.Show do
             # An (unused) example of meta-data
             online_at: System.system_time(:second)
           })
+
+        Phoenix.PubSub.subscribe(Raffley.PubSub, "updates:" <> topic(id))
       end
     end
 
@@ -237,5 +239,9 @@ defmodule RaffleyWeb.RaffleLive.Show do
 
   def handle_info({:raffle_updated, raffle}, socket) do
     {:noreply, assign(socket, :raffle, raffle)}
+  end
+
+  def handle_info({:user_joined, presence}, socket) do
+    {:noreply, stream_insert(socket, :presences, presence)}
   end
 end

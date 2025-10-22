@@ -8,4 +8,26 @@ defmodule RaffleyWeb.Presence do
   use Phoenix.Presence,
     otp_app: :raffley,
     pubsub_server: Raffley.PubSub
+
+  def init(_opts) do
+    # Must return an `:ok` tuple with any custom state
+    #
+    # In our specific circumstance, we have no custom state to track.
+    # We model this situation with an empty `Map`.
+    {:ok, %{}}
+  end
+
+  def handle_metas(topic, %{joins: joins, leaves: leaves}, presences, state) do
+    # We must walk through each item in `joins` and in `leaves` and
+    # broadcast a message announcing these events.
+    for {username, _presence} <- joins do
+      presence = %{id: username, metas: Map.fetch!(presences, username)}
+
+      msg = {:user_joined, presence}
+
+      Phoenix.PubSub.local_broadcast(Raffley.PubSub, "updates:" <> topic, msg)
+    end
+
+    {:ok, state}
+  end
 end
