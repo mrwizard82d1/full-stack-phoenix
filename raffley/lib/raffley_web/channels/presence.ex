@@ -28,6 +28,22 @@ defmodule RaffleyWeb.Presence do
       Phoenix.PubSub.local_broadcast(Raffley.PubSub, "updates:" <> topic, msg)
     end
 
+    for {username, _presence} <- leaves do
+      metas =
+        case Map.fetch(presences, username) do
+          {:ok, presence_metas} -> presence_metas
+          # If `username` has left **all** presences, `Map.fetch` will
+          # return `:error`. We then return an empty list.
+          :error -> []
+        end
+
+      presence = %{id: username, metas: metas}
+
+      msg = {:user_left, presence}
+
+      Phoenix.PubSub.local_broadcast(Raffley.PubSub, "updates:" <> topic, msg)
+    end
+
     {:ok, state}
   end
 end

@@ -244,4 +244,12 @@ defmodule RaffleyWeb.RaffleLive.Show do
   def handle_info({:user_joined, presence}, socket) do
     {:noreply, stream_insert(socket, :presences, presence)}
   end
+
+  def handle_info({:user_left, presence}, socket) do
+    if presence.metas == [] do
+      {:noreply, stream_delete(socket, :presences, presence)}
+    else
+      {:noreply, stream_insert(socket, :presences, presence)}
+    end
+  end
 end
