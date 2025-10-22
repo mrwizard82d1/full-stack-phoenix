@@ -9,6 +9,29 @@ defmodule RaffleyWeb.Presence do
     otp_app: :raffley,
     pubsub_server: Raffley.PubSub
 
+  def track_user(id, current_user) do
+    {:ok, _} =
+      track(self(), topic(id), current_user.username, %{
+        # An (unused) example of meta-data
+        online_at: System.system_time(:second)
+      })
+  end
+
+  def subscribe(id) do
+    Phoenix.PubSub.subscribe(Raffley.PubSub, "updates:" <> topic(id))
+  end
+
+  def list_users(id) do
+    list(topic(id))
+    |> Enum.map(fn {username, %{metas: metas}} ->
+      %{id: username, metas: metas}
+    end)
+  end
+
+  defp topic(id) do
+    "raffle_watchers:#{id}"
+  end
+
   def init(_opts) do
     # Must return an `:ok` tuple with any custom state
     #
