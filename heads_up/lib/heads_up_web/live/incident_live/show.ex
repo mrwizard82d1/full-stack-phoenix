@@ -28,6 +28,8 @@ defmodule HeadsUpWeb.IncidentLive.Show do
           Presence.track(self(), topic(id), current_user.username, %{
             online_at: System.system_time(:second)
           })
+
+        Phoenix.PubSub.subscribe(HeadsUp.PubSub, "updates:" <> topic(id))
       end
     end
 
@@ -251,5 +253,17 @@ defmodule HeadsUpWeb.IncidentLive.Show do
 
   def handle_info({:incident_updated, incident}, socket) do
     {:noreply, assign(socket, :incident, incident)}
+  end
+
+  def handle_info({:user_joined, presence}, socket) do
+    {:noreply, stream_insert(socket, :presences, presence)}
+  end
+
+  def handle_info({:user_left, presence}, socket) do
+    if presence.metas == [] do
+      {:noreply, stream_delete(socket, :presences, presence)}
+    else
+      {:noreply, stream_insert(socket, :presences, presence)}
+    end
   end
 end
